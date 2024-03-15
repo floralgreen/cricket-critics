@@ -23,6 +23,7 @@ public class Movie {
     private String plot;
 
     @Column(nullable = false, name = "language")
+    @Enumerated(value = EnumType.STRING)
     private LanguageEnum languageEnum;
 
     @Column(nullable = false)
@@ -40,8 +41,7 @@ public class Movie {
     @Column(name = "movie_website", length = 500)
     private String movieWebSite;
 
-    //TODO da gestire il collegamento con l'Enum
-    @Column(nullable = false, name = "record_status")
+    @Column(nullable = false, name = "record_status", columnDefinition = "enum('A','D') default 'A'")
     @Enumerated(value = EnumType.STRING)
     private RecordStatusEnum recordStatusEnum;
 
