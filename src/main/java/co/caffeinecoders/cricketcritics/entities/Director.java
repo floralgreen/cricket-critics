@@ -3,6 +3,7 @@ package co.caffeinecoders.cricketcritics.entities;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "directors")
@@ -23,10 +24,13 @@ public class Director {
     @Column
     private String placeOFBirth;
 
+    @ManyToMany(mappedBy = "directors")
+    private List<Movie> movies;
+
     public Director() {
     }
 
-    public Director(Long id, String name, String lastName, Date dataOfBirth, String nationality, Integer age, String placeOFBirth) {
+    public Director(Long id, String name, String lastName, Date dataOfBirth, String nationality, Integer age, String placeOFBirth, List<Movie> movies) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -34,6 +38,7 @@ public class Director {
         this.nationality = nationality;
         this.age = age;
         this.placeOFBirth = placeOFBirth;
+        this.movies = movies;
     }
 
     public Long getId() {
@@ -90,5 +95,13 @@ public class Director {
 
     public void setPlaceOFBirth(String placeOFBirth) {
         this.placeOFBirth = placeOFBirth;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 }

@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.entities;
 
+import co.caffeinecoders.cricketcritics.enums.CategoryEnum;
 import co.caffeinecoders.cricketcritics.enums.LanguageEnum;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import jakarta.persistence.*;
@@ -50,9 +51,28 @@ public class Movie {
     @NotNull
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
-    public Movie() {}
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "category",nullable = false)
+    private CategoryEnum categoryEnum;
 
-    public Movie(Long id, String title, String plot, LanguageEnum languageEnum, Integer duration, Integer usersScore, Integer reviewersScore, OffsetDateTime releaseDate, String movieWebSite, List<Review> reviews, RecordStatusEnum recordStatusEnum) {
+    @ManyToMany
+    @JoinTable(name = "actors_movies",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    private List<Actor> actors;
+
+    @ManyToMany
+    @JoinTable(name = "directors_movies",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "directos_id"))
+    private List<Director> directors;
+
+    public Movie() {
+    }
+
+    public Movie(Long id, String title, String plot, LanguageEnum languageEnum, Integer duration, Integer usersScore, Integer reviewersScore, OffsetDateTime releaseDate,
+                 String movieWebSite, List<Review> reviews, RecordStatusEnum recordStatusEnum, CategoryEnum categoryEnum, List<Actor> actors, List<Director> directors) {
         this.id = id;
         this.title = title;
         this.plot = plot;
@@ -64,6 +84,9 @@ public class Movie {
         this.movieWebSite = movieWebSite;
         this.reviews = reviews;
         this.recordStatusEnum = recordStatusEnum;
+        this.categoryEnum = categoryEnum;
+        this.actors = actors;
+        this.directors = directors;
     }
 
     public Long getId() {
@@ -152,5 +175,29 @@ public class Movie {
 
     public void setRecordStatusEnum(RecordStatusEnum recordStatusEnum) {
         this.recordStatusEnum = recordStatusEnum;
+    }
+
+    public CategoryEnum getCategoryEnum() {
+        return categoryEnum;
+    }
+
+    public void setCategoryEnum(CategoryEnum categoryEnum) {
+        this.categoryEnum = categoryEnum;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
+
+    public List<Director> getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(List<Director> directors) {
+        this.directors = directors;
     }
 }
