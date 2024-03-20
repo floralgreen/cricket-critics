@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Users")
@@ -14,6 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
 
     @Column(nullable = false)
     private String userName;
@@ -32,10 +34,12 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserEnum userEnum;
 
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
     public User() {
     }
 
-    public User(Long id, String userName, String name, String lastName, String email, String password, RecordStatusEnum recordStatusEnum, UserEnum userEnum) {
+    public User(Long id, String userName, String name, String lastName, String email, String password, RecordStatusEnum recordStatusEnum, UserEnum userEnum, List<Review> reviews) {
         this.id = id;
         this.userName = userName;
         this.name = name;
@@ -44,6 +48,7 @@ public class User {
         this.password = password;
         this.recordStatusEnum = recordStatusEnum;
         this.userEnum = userEnum;
+        this.reviews = reviews;
     }
 
     public Long getId() {
@@ -108,5 +113,13 @@ public class User {
 
     public void setUserEnum(UserEnum userEnum) {
         this.userEnum = userEnum;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

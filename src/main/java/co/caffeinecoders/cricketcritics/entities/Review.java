@@ -25,15 +25,27 @@ public class Review {
     @Enumerated(value = EnumType.STRING)
     private RecordStatusEnum recordStatusEnum;
 
-    public Review() {}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Review(Long id, String description, Integer score, ReviewRatingEnum reviewRatingEnum, OffsetDateTime reviewDate, RecordStatusEnum recordStatusEnum) {
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
+
+    public Review() {
+    }
+
+    public Review(Long id, String description, Integer score, ReviewRatingEnum reviewRatingEnum, OffsetDateTime reviewDate, RecordStatusEnum recordStatusEnum, User user, Movie movie) {
         this.id = id;
         this.description = description;
         this.score = score;
         this.reviewRatingEnum = reviewRatingEnum;
         this.reviewDate = reviewDate;
         this.recordStatusEnum = recordStatusEnum;
+        this.user = user;
+        this.movie = movie;
     }
 
     public Long getId() {
@@ -83,4 +95,21 @@ public class Review {
     public void setRecordStatusEnum(RecordStatusEnum recordStatusEnum) {
         this.recordStatusEnum = recordStatusEnum;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 }
+

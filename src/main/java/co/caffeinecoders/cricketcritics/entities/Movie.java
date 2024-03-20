@@ -3,10 +3,12 @@ package co.caffeinecoders.cricketcritics.entities;
 import co.caffeinecoders.cricketcritics.enums.LanguageEnum;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -41,14 +43,16 @@ public class Movie {
     @Column(name = "movie_website", length = 500)
     private String movieWebSite;
 
-    @Column(nullable = false, name = "record_status", columnDefinition = "enum('A','D') default 'A'")
-    @Enumerated(value = EnumType.STRING)
-    private RecordStatusEnum recordStatusEnum;
+    @OneToMany(mappedBy = "movie")
+    private List<Review> reviews;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     public Movie() {}
 
-    public Movie(Long id, String title, String plot, LanguageEnum languageEnum, Integer duration, Integer usersScore,
-                 Integer reviewersScore, OffsetDateTime releaseDate, String movieWebSite, RecordStatusEnum recordStatusEnum) {
+    public Movie(Long id, String title, String plot, LanguageEnum languageEnum, Integer duration, Integer usersScore, Integer reviewersScore, OffsetDateTime releaseDate, String movieWebSite, List<Review> reviews, RecordStatusEnum recordStatusEnum) {
         this.id = id;
         this.title = title;
         this.plot = plot;
@@ -58,6 +62,7 @@ public class Movie {
         this.reviewersScore = reviewersScore;
         this.releaseDate = releaseDate;
         this.movieWebSite = movieWebSite;
+        this.reviews = reviews;
         this.recordStatusEnum = recordStatusEnum;
     }
 
@@ -131,6 +136,14 @@ public class Movie {
 
     public void setMovieWebSite(String movieWebSite) {
         this.movieWebSite = movieWebSite;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public RecordStatusEnum getRecordStatusEnum() {
