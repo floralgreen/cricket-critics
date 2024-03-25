@@ -16,7 +16,7 @@ public class Director {
     @Column(nullable = false)
     private String lastName;
     @Column
-    private Date dataOfBirth;
+    private Date dateOfBirth;
     @Column
     private String nationality;
     @Column(nullable = false)
@@ -30,11 +30,11 @@ public class Director {
     public Director() {
     }
 
-    public Director(Long id, String name, String lastName, Date dataOfBirth, String nationality, Integer age, String placeOFBirth, List<Movie> movies) {
+    public Director(Long id, String name, String lastName, Date dateOfBirth, String nationality, Integer age, String placeOFBirth, List<Movie> movies) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.dataOfBirth = dataOfBirth;
+        this.dateOfBirth = dateOfBirth;
         this.nationality = nationality;
         this.age = age;
         this.placeOFBirth = placeOFBirth;
@@ -65,12 +65,12 @@ public class Director {
         this.lastName = lastName;
     }
 
-    public Date getDataOfBirth() {
-        return dataOfBirth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDataOfBirth(Date dataOfBirth) {
-        this.dataOfBirth = dataOfBirth;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getNationality() {
