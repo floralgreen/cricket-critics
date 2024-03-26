@@ -33,11 +33,9 @@ public class Review {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    public Review() {}
 
-    public Review() {
-    }
-
-    public Review(Long id, String description, Integer score, ReviewRatingEnum reviewRatingEnum, OffsetDateTime reviewDate, RecordStatusEnum recordStatusEnum, User user, Movie movie) {
+    public Review(Long id, String description, Integer score, ReviewRatingEnum reviewRatingEnum, OffsetDateTime reviewDate, RecordStatusEnum recordStatusEnum,User user,Movie movie) {
         this.id = id;
         this.description = description;
         this.score = score;
@@ -112,4 +110,3 @@ public class Review {
         this.movie = movie;
     }
 }
-
