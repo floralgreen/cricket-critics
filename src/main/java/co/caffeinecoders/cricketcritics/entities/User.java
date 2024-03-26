@@ -15,8 +15,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-
     @Column(nullable = false)
     private String userName;
     @Column(nullable = false)
