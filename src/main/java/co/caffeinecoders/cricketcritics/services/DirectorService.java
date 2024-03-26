@@ -27,6 +27,7 @@ public class DirectorService {
             directorOptional.get().setNationality(director.getNationality());
             directorOptional.get().setAge(director.getAge());
             directorOptional.get().setPlaceOFBirth(director.getPlaceOFBirth());
+            directorOptional.get().setMovies(director.getMovies());
             repository.save(directorOptional.get());
         }
         return directorOptional;
