@@ -16,9 +16,9 @@ public class ActorController {
     private ActorService actorService;
 
     @PostMapping("/create")
-    public ResponseEntity<Actor> postActor(@RequestBody Actor actorToAdd) {
-        actorService.postActor(actorToAdd);
-        return ResponseEntity.ok().body(actorToAdd);
+    public ResponseEntity<Actor> createActor(@RequestBody Actor actorToAdd) {
+        Actor actorCreated = actorService.createActor(actorToAdd);
+        return ResponseEntity.ok(actorCreated);
     }
 
     @GetMapping("/findAll")
@@ -38,7 +38,7 @@ public class ActorController {
     @PutMapping("/{id}")
     public ResponseEntity<Actor> updateActor(@PathVariable Long id, @RequestBody Actor actor) {
         Optional<Actor> actorOptional = actorService.updateActor(id, actor);
-        if (actorOptional.isEmpty()) {
+        if (actorOptional.isPresent()) {
             return ResponseEntity.ok().body(actorOptional.get());
         }
         return ResponseEntity.notFound().build();

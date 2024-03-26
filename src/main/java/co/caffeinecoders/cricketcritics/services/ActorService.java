@@ -13,7 +13,7 @@ public class ActorService {
     @Autowired
     private ActorRepository actorRepository;
 
-    public Actor postActor(Actor actorToAdd){
+    public Actor createActor(Actor actorToAdd){
         return  actorRepository.saveAndFlush(actorToAdd);
     }
     public List<Actor> getAllActor(){
