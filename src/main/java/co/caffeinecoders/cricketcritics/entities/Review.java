@@ -16,6 +16,8 @@ public class Review {
     private String description;
     @Column(nullable = false)
     private Integer score;
+
+    //TODO fix contatore
     @Column(nullable = false, name = "review_rating", columnDefinition = "enum('1','2','3','4','5') ")
     @Enumerated(value = EnumType.STRING)
     private ReviewRatingEnum reviewRatingEnum;

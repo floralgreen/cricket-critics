@@ -27,6 +27,8 @@ public class Actor {
     @ManyToMany(mappedBy = "actors")
     private List<Movie> movies;
 
+    //TODO ADD CANCELLAZIONE LOGICA
+
     public Actor() {
     }
 
