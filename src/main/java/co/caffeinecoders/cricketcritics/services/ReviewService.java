@@ -19,7 +19,7 @@ public class ReviewService {
     /**
      *
      * @param review
-     * @return the created review saved on the database
+     * @return the created review saved in the database
      */
     public Review createReview(Review review){
         Review createdReview = reviewRepository.save(review);
@@ -47,6 +47,7 @@ public class ReviewService {
         if (reviewToUpdate.isPresent()){
             reviewToUpdate.get().setDescription(updateReview.getDescription());
             reviewToUpdate.get().setScore(updateReview.getScore());
+            reviewToUpdate.get().setReviewRatingEnum(updateReview.getReviewRatingEnum());
             reviewRepository.save(reviewToUpdate.get());
         }
         return reviewToUpdate;
