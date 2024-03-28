@@ -1,4 +1,4 @@
-package co.caffeinecoders.cricketcritics.controller;
+package co.caffeinecoders.cricketcritics.controllers;
 
 import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.services.UserService;
