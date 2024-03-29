@@ -1,6 +1,8 @@
 package co.caffeinecoders.cricketcritics.entities;
 
+import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 import java.util.List;
@@ -23,6 +25,10 @@ public class Director {
     private Integer age;
     @Column
     private String placeOFBirth;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
 
     @ManyToMany(mappedBy = "directors")
     private List<Movie> movies;
@@ -32,7 +38,7 @@ public class Director {
     public Director() {
     }
 
-    public Director(Long id, String name, String lastName, Date dateOfBirth, String nationality, Integer age, String placeOFBirth, List<Movie> movies) {
+    public Director(Long id, String name, String lastName, Date dateOfBirth, String nationality, Integer age, String placeOFBirth, RecordStatusEnum recordStatusEnum, List<Movie> movies) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -40,6 +46,7 @@ public class Director {
         this.nationality = nationality;
         this.age = age;
         this.placeOFBirth = placeOFBirth;
+        this.recordStatusEnum = recordStatusEnum;
         this.movies = movies;
     }
 
@@ -97,6 +104,14 @@ public class Director {
 
     public void setPlaceOFBirth(String placeOFBirth) {
         this.placeOFBirth = placeOFBirth;
+    }
+
+    public RecordStatusEnum getRecordStatusEnum() {
+        return recordStatusEnum;
+    }
+
+    public void setRecordStatusEnum(RecordStatusEnum recordStatusEnum) {
+        this.recordStatusEnum = recordStatusEnum;
     }
 
     public List<Movie> getMovies() {

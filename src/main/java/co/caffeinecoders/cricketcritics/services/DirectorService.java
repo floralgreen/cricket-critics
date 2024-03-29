@@ -1,10 +1,12 @@
 package co.caffeinecoders.cricketcritics.services;
 
 import co.caffeinecoders.cricketcritics.entities.Director;
+import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.repositories.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +19,9 @@ public class DirectorService {
     }
     public Optional<Director> getDirector(Long id){
         return repository.findById(id);
+    }
+    public List<Director> getAllDirector(){
+        return repository.findAll();
     }
     public Optional<Director> updateDirector(Director director, Long id){
         Optional<Director> directorOptional = repository.findById(id);
@@ -32,10 +37,11 @@ public class DirectorService {
         }
         return directorOptional;
     }
-    public Optional<Director> deleteDirector(Long id){
+    public Optional<Director> deactivateDirector(Long id){
         Optional<Director> directorOptional = repository.findById(id);
         if (directorOptional.isPresent()){
-            repository.delete(directorOptional.get());
+            directorOptional.get().setRecordStatusEnum(RecordStatusEnum.D);
+            repository.save(directorOptional.get());
         }
         return directorOptional;
     }
