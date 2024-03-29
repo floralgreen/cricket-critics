@@ -1,12 +1,9 @@
 package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
-import co.caffeinecoders.cricketcritics.enums.ReviewRatingEnum;
 import co.caffeinecoders.cricketcritics.enums.UserEnum;
 import jakarta.persistence.*;
 
-import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity

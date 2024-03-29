@@ -26,8 +26,8 @@ public class ReviewController {
 
     //GET
     @GetMapping("/{id}")
-    public ResponseEntity<Review> findReviewById(@PathVariable Long id){
-        Optional<Review> foundReview = reviewService.findReviewById(id);
+    public ResponseEntity<Review> findActiveReviewById(@PathVariable Long id){
+        Optional<Review> foundReview = reviewService.findActiveReviewById(id);
         if (foundReview.isEmpty()){
             return ResponseEntity.notFound().build();
         }

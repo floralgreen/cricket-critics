@@ -1,8 +1,8 @@
 package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
-import co.caffeinecoders.cricketcritics.enums.ReviewRatingEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.OffsetDateTime;
 
@@ -17,16 +17,15 @@ public class Review {
     @Column(nullable = false)
     private Integer score;
 
-    //TODO fix contatore
-    @Column(nullable = false, name = "review_rating", columnDefinition = "enum('1','2','3','4','5') ")
-    @Enumerated(value = EnumType.STRING)
-    private ReviewRatingEnum reviewRatingEnum;
+    @Column
+    private Integer likesCounter = 0;
     @Column(nullable = false)
     private OffsetDateTime reviewDate;
-    @Column(nullable = false, name = "record_status", columnDefinition = "enum('A','D') default 'A'")
-    @Enumerated(value = EnumType.STRING)
-    private RecordStatusEnum recordStatusEnum;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -37,11 +36,13 @@ public class Review {
 
     public Review() {}
 
-    public Review(Long id, String description, Integer score, ReviewRatingEnum reviewRatingEnum, OffsetDateTime reviewDate, RecordStatusEnum recordStatusEnum,User user,Movie movie) {
+    public Review(Long id, String description, Integer score,
+                  Integer likesCounter, OffsetDateTime reviewDate, RecordStatusEnum recordStatusEnum,
+                  User user, Movie movie) {
         this.id = id;
         this.description = description;
         this.score = score;
-        this.reviewRatingEnum = reviewRatingEnum;
+        this.likesCounter = likesCounter;
         this.reviewDate = reviewDate;
         this.recordStatusEnum = recordStatusEnum;
         this.user = user;
@@ -72,12 +73,12 @@ public class Review {
         this.score = score;
     }
 
-    public ReviewRatingEnum getReviewRatingEnum() {
-        return reviewRatingEnum;
+    public Integer getLikesCounter() {
+        return likesCounter;
     }
 
-    public void setReviewRatingEnum(ReviewRatingEnum reviewRatingEnum) {
-        this.reviewRatingEnum = reviewRatingEnum;
+    public void setLikesCounter(Integer likesCounter) {
+        this.likesCounter = likesCounter;
     }
 
     public OffsetDateTime getReviewDate() {
