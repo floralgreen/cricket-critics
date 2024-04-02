@@ -25,9 +25,7 @@ public class DirectorController {
     public ResponseEntity<Director> findDirector(@PathVariable Long id){
         Optional<Director> directorOptional = service.getDirector(id);
         if (directorOptional.isPresent()){
-            if (directorOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
                 return ResponseEntity.ok().body(directorOptional.get());
-            }
         }
         return ResponseEntity.notFound().build();
     }
@@ -39,9 +37,7 @@ public class DirectorController {
     public ResponseEntity<Director> updateDirector(@PathVariable Long id, @RequestBody Director director){
         Optional<Director> directorOptional = service.updateDirector(director, id);
         if (directorOptional.isPresent()){
-            if (directorOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                return ResponseEntity.ok().body(directorOptional.get());
-            }
+            return ResponseEntity.ok().body(directorOptional.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -49,9 +45,7 @@ public class DirectorController {
     public ResponseEntity<Director> deactivateDirector(@PathVariable Long id){
         Optional<Director> directorOptional = service.deactivateDirector(id);
         if (directorOptional.isPresent()){
-            if (directorOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                return ResponseEntity.ok(directorOptional.get());
-            }
+            return ResponseEntity.ok(directorOptional.get());
         }
         return ResponseEntity.notFound().build();
     }
