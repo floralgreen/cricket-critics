@@ -1,12 +1,14 @@
 package co.caffeinecoders.cricketcritics.controllers;
 
 import co.caffeinecoders.cricketcritics.entities.Director;
+import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.services.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -19,15 +21,19 @@ public class DirectorController {
     public ResponseEntity<Director> addDirector(@RequestBody Director director){
         return ResponseEntity.ok().body(service.addDirector(director));
     }
-    @GetMapping("/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<Director> findDirector(@PathVariable Long id){
         Optional<Director> directorOptional = service.getDirector(id);
         if (directorOptional.isPresent()){
-            return ResponseEntity.ok().body(directorOptional.get());
+                return ResponseEntity.ok().body(directorOptional.get());
         }
         return ResponseEntity.notFound().build();
     }
-    @PutMapping("/{id}")
+    @GetMapping("/findall")
+    public ResponseEntity<List<Director>> findAllDirector(){
+        return ResponseEntity.ok().body(service.getAllDirector());
+    }
+    @PutMapping("/edit/{id}")
     public ResponseEntity<Director> updateDirector(@PathVariable Long id, @RequestBody Director director){
         Optional<Director> directorOptional = service.updateDirector(director, id);
         if (directorOptional.isPresent()){
@@ -35,11 +41,11 @@ public class DirectorController {
         }
         return ResponseEntity.notFound().build();
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Director> removeDirector(@PathVariable Long id){
-        Optional<Director> directorOptional = service.deleteDirector(id);
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<Director> deactivateDirector(@PathVariable Long id){
+        Optional<Director> directorOptional = service.deactivateDirector(id);
         if (directorOptional.isPresent()){
-            return ResponseEntity.ok().body(directorOptional.get());
+            return ResponseEntity.ok(directorOptional.get());
         }
         return ResponseEntity.notFound().build();
     }
