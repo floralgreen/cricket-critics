@@ -1,5 +1,4 @@
 package co.caffeinecoders.cricketcritics.controllers;
-
 import co.caffeinecoders.cricketcritics.entities.Actor;
 import co.caffeinecoders.cricketcritics.services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,14 @@ public class ActorController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Actor>> findAllActor() {
-        return ResponseEntity.ok(actorService.getAllActor());
+    public ResponseEntity<List<Actor>> findAllActiveActors() {
+        List<Actor> actors = actorService.getAllActiveActors();
+        return ResponseEntity.ok(actorService.getAllActiveActors());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Actor> findById(Long id) {
-        Optional<Actor> actorOptional = actorService.getActor(id);
+        Optional<Actor> actorOptional = actorService.findActorById(id);
         if (actorOptional.isPresent()) {
             return ResponseEntity.ok(actorOptional.get());
         }
@@ -44,12 +44,14 @@ public class ActorController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Actor> removeActor(Long id) {
-        Optional<Actor> actorOptional = actorService.deleteActor(id);
-        if (actorOptional.isPresent()) {
-            return ResponseEntity.ok().body(actorOptional.get());
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<Actor> deactivateReviewById(@PathVariable Long id){
+        Optional<Actor> deactivatedActor = actorService.deactivateAcotrById(id);
+        if (deactivatedActor.isEmpty()){
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(deactivatedActor.get());
     }
+
+
 }
