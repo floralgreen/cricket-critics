@@ -29,10 +29,15 @@ public class ReviewService {
     /**
      *
      * @param id
-     * @return returns an Optional containing the Review Object with the matching ID or returns an empty Optional
+     * @return returns an Optional containing the Review Object with the matching ID and if the status is Active or returns an empty Optional
      */
-    public Optional<Review> findReviewById(Long id){
+    public Optional<Review> findActiveReviewById(Long id){
         Optional<Review> foundReview = reviewRepository.findById(id);
+        if (foundReview.isPresent()){
+            if (foundReview.get().getRecordStatusEnum().equals(RecordStatusEnum.D)){
+                return Optional.empty();
+            }
+        }
         return foundReview;
     }
 
@@ -47,7 +52,7 @@ public class ReviewService {
         if (reviewToUpdate.isPresent()){
             reviewToUpdate.get().setDescription(updateReview.getDescription());
             reviewToUpdate.get().setScore(updateReview.getScore());
-            reviewToUpdate.get().setReviewRatingEnum(updateReview.getReviewRatingEnum());
+            reviewToUpdate.get().setLikesCounter(updateReview.getLikesCounter());
             reviewRepository.save(reviewToUpdate.get());
         }
         return reviewToUpdate;
