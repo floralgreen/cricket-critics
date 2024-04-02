@@ -35,7 +35,7 @@ public class DirectorService {
                 activeDirectors.add(director);
             }
         }
-        return repository.findAll();
+        return activeDirectors;
     }
     public Optional<Director> updateDirector(Director director, Long id){
         Optional<Director> directorOptional = repository.findById(id);
