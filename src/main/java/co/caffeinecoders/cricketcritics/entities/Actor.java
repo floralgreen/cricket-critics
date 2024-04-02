@@ -1,6 +1,8 @@
 package co.caffeinecoders.cricketcritics.entities;
 
+import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 import java.util.List;
@@ -24,15 +26,18 @@ public class Actor {
     private Integer age;
     @Column
     private String placeOFBirth;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     @ManyToMany(mappedBy = "actors")
     private List<Movie> movies;
 
-    //TODO ADD CANCELLAZIONE LOGICA
 
     public Actor() {
     }
 
-    public Actor(Long id, String name, String lastName, Date dataOfBirth, String nationality, Integer age, String placeOFBirth, List<Movie> movies) {
+    public Actor(Long id, String name, String lastName, Date dataOfBirth, String nationality, Integer age, String placeOFBirth, RecordStatusEnum recordStatusEnum, List<Movie> movies) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -40,6 +45,7 @@ public class Actor {
         this.nationality = nationality;
         this.age = age;
         this.placeOFBirth = placeOFBirth;
+        this.recordStatusEnum = recordStatusEnum;
         this.movies = movies;
     }
 
@@ -97,6 +103,14 @@ public class Actor {
 
     public void setPlaceOFBirth(String placeOFBirth) {
         this.placeOFBirth = placeOFBirth;
+    }
+
+    public RecordStatusEnum getRecordStatusEnum() {
+        return recordStatusEnum;
+    }
+
+    public void setRecordStatusEnum(RecordStatusEnum recordStatusEnum) {
+        this.recordStatusEnum = recordStatusEnum;
     }
 
     public List<Movie> getMovies() {
