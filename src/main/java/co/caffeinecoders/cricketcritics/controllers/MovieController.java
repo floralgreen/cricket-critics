@@ -21,11 +21,6 @@ public class MovieController {
         return ResponseEntity.ok().body(movieCreated);
     }
 
-//    @GetMapping("/getlist")
-//    public ResponseEntity<List<Movie>> getAllStudent() {
-//        List<Movie> allMovies = movieService.getAllMovies();
-//        return ResponseEntity.ok().body(allMovies);
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Movie> findMovieById(@PathVariable Long id) {
@@ -43,6 +38,12 @@ public class MovieController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(movieOptional.get());
+    }
+
+    @GetMapping("/findActive")
+    public ResponseEntity<List<Movie>> findAllActiveMovies() {
+        List<Movie> allActiveMovies = movieService.getAllActiveMovies();
+        return ResponseEntity.ok(allActiveMovies);
     }
 
     @PutMapping("/deactivate/{id}")
