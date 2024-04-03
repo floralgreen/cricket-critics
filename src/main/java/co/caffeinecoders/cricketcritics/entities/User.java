@@ -2,13 +2,17 @@ package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.enums.UserEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -20,15 +24,19 @@ public class User {
     private String lastName;
     @Column(nullable = false,unique = true)
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false, name = "record_status", columnDefinition = "enum('A','D') default 'A'")
-    @Enumerated(value = EnumType.STRING)
-    private RecordStatusEnum recordStatusEnum;
+    @Enumerated(EnumType.STRING)
+    @JsonIgnore
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     @Column(nullable = false, name = "user_enum", columnDefinition = "enum('BASICUSER','REVIEWER','ADMIN') ")
     @Enumerated(value = EnumType.STRING)
-    private UserEnum userEnum;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private UserEnum userEnum = UserEnum.BASICUSER;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
     public User() {
