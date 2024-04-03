@@ -1,11 +1,11 @@
 package co.caffeinecoders.cricketcritics.services;
 
 import co.caffeinecoders.cricketcritics.entities.Actor;
-import co.caffeinecoders.cricketcritics.entities.Movie;
+
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.repositories.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,49 +17,39 @@ public class ActorService {
     @Autowired
     private ActorRepository actorRepository;
 
-    public Actor createActor(Actor actorToAdd) {
-        return (actorRepository.saveAndFlush(actorToAdd));
+    public Actor addActor(Actor actor) {
+        return (actorRepository.save(actor));
     }
 
 
     public List<Actor> getAllActiveActors() {
-        List<Actor> actors = actorRepository.findAll();
-        List<Actor> actorActive = new ArrayList<Actor>();
-        for (Actor actor: actors) {
-            if (actor.getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                actorActive.add(actor);
-            }
-        }
-        return actorActive;
+        return actorRepository.findAllActiveActor();
+
+
     }
 
     public Optional<Actor> findActorById(Long id) {
-        Optional<Actor> actorOptional = actorRepository.findById(id);
-        if (actorOptional.isPresent()) {
-            if (actorOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                return actorOptional;
-            }
+        Optional<Actor> actorOptional = actorRepository.findActiveActorById(id);
+        return actorOptional;
 
-        }
-        return Optional.empty();
+
     }
 
-    public Optional<Actor> updateActor(Long id, Actor actorUpdate) {
-        Optional<Actor> actorOptional = actorRepository.findById(id);
+    public Optional<Actor> updateActor(Long id, Actor actor) {
+        Optional<Actor> actorOptional = actorRepository.findActiveActorById(id);
         if (actorOptional.isPresent()) {
-            if (actorOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                actorOptional.get().setName(actorUpdate.getName());
-                actorOptional.get().setLastName(actorUpdate.getLastName());
-                actorOptional.get().setAge(actorUpdate.getAge());
-                actorOptional.get().setMovies(actorUpdate.getMovies());
-                actorOptional.get().setNationality(actorUpdate.getNationality());
-                actorOptional.get().setDataOfBirth(actorUpdate.getDataOfBirth());
-                actorOptional.get().setPlaceOFBirth(actorUpdate.getPlaceOFBirth());
-                actorRepository.save(actorOptional.get());
-                return actorOptional;
-            }
+            actorOptional.get().setName(actor.getName());
+            actorOptional.get().setLastName(actor.getLastName());
+            actorOptional.get().setAge(actor.getAge());
+            actorOptional.get().setMovies(actor.getMovies());
+            actorOptional.get().setNationality(actor.getNationality());
+            actorOptional.get().setDataOfBirth(actor.getDataOfBirth());
+            actorOptional.get().setPlaceOFBirth(actor.getPlaceOFBirth());
+            Actor actorUpdated = actorRepository.save(actorOptional.get());
+            return Optional.of(actorUpdated);
+        } else {
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     public Optional<Actor> deactivateAcotrById(Long id) {

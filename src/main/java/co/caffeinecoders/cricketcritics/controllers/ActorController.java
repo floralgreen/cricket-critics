@@ -16,17 +16,17 @@ public class ActorController {
 
     @PostMapping("/create")
     public ResponseEntity<Actor> createActor(@RequestBody Actor actorToAdd) {
-        Actor actorCreated = actorService.createActor(actorToAdd);
+        Actor actorCreated = actorService.addActor(actorToAdd);
         return ResponseEntity.ok(actorCreated);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/all")
     public ResponseEntity<List<Actor>> findAllActiveActors() {
         List<Actor> actors = actorService.getAllActiveActors();
         return ResponseEntity.ok(actorService.getAllActiveActors());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<Actor> findById(Long id) {
         Optional<Actor> actorOptional = actorService.findActorById(id);
         if (actorOptional.isPresent()) {
@@ -35,7 +35,7 @@ public class ActorController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<Actor> updateActor(@PathVariable Long id, @RequestBody Actor actor) {
         Optional<Actor> actorOptional = actorService.updateActor(id, actor);
         if (actorOptional.isPresent()) {

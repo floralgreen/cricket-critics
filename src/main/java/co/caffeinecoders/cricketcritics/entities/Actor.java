@@ -1,6 +1,8 @@
 package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,9 +29,10 @@ public class Actor {
     @Column
     private String placeOFBirth;
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @JsonIgnore
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @ManyToMany(mappedBy = "actors")
     private List<Movie> movies;
 
