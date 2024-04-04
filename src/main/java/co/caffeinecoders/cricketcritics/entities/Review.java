@@ -20,7 +20,7 @@ public class Review {
     @Column(nullable = false)
     private Integer score;
 
-    @Column
+    @Column(nullable = false)
     private Integer likesCounter = 0;
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
