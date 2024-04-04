@@ -1,6 +1,8 @@
 package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,6 +12,7 @@ import java.time.OffsetDateTime;
 @Table(name = "reviews")
 public class Review {
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column
@@ -17,13 +20,14 @@ public class Review {
     @Column(nullable = false)
     private Integer score;
 
-    @Column
+    @Column(nullable = false)
     private Integer likesCounter = 0;
     @Column(nullable = false)
-    private OffsetDateTime reviewDate;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private OffsetDateTime reviewDate = OffsetDateTime.now();
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @JsonIgnore
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     @ManyToOne

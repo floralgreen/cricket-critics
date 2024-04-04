@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +35,12 @@ public class ReviewController {
         return ResponseEntity.ok(foundReview.get());
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Review>> findAllActiverReviews(){
+        List<Review> reviewList = reviewService.findAllActiveReviews();
+        return ResponseEntity.ok(reviewList);
+    }
+
     //PUT
     @PutMapping("/edit/{id}")
     public ResponseEntity<Review> updateReviewById(@PathVariable Long id, @RequestBody Review reviewUpdate){
@@ -42,6 +49,15 @@ public class ReviewController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updatedReview.get());
+    }
+
+    @PutMapping("/like/{id}")
+    public ResponseEntity<Review> addLikeToReview(@PathVariable Long id){
+        Optional<Review> increasedReview = reviewService.addLikeToCounter(id);
+        if (increasedReview.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(increasedReview.get());
     }
 
     @PutMapping("/deactivate/{id}")
