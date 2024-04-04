@@ -13,9 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query (value="SELECT * FROM users as u where u.record_status = 'A'", nativeQuery = true)
+    @Query (value="SELECT * FROM movies as u where u.record_status = 'A'", nativeQuery = true)
     List<User> findAllActiveUsers();
 
-    @Query (value="SELECT * FROM users as u where u.id = :id and u.record_status = 'A'", nativeQuery = true)
+    @Query (value="SELECT * FROM movies as u where u.id = :id and u.record_status = 'A'", nativeQuery = true)
     Optional<User> findActiveUserById(@Param("id") Long id);
 }

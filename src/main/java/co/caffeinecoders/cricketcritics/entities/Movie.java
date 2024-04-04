@@ -3,6 +3,8 @@ package co.caffeinecoders.cricketcritics.entities;
 import co.caffeinecoders.cricketcritics.enums.CategoryEnum;
 import co.caffeinecoders.cricketcritics.enums.LanguageEnum;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import java.util.List;
 public class Movie {
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -33,10 +36,12 @@ public class Movie {
     private Integer duration;
 
     @Column(nullable = false, name = "users_score")
-    private Integer usersScore;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Integer usersScore = 0;
 
     @Column(nullable = false, name = "reviewers_score")
-    private Integer reviewersScore;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Integer reviewersScore = 0;
 
     @Column(name = "release_date")
     private OffsetDateTime releaseDate;
@@ -45,10 +50,11 @@ public class Movie {
     private String movieWebSite;
 
     @OneToMany(mappedBy = "movie")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Review> reviews;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @JsonIgnore
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     @Enumerated(EnumType.STRING)
@@ -57,12 +63,14 @@ public class Movie {
     private CategoryEnum categoryEnum;
 
     @ManyToMany
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JoinTable(name = "actors_movies",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id"))
     private List<Actor> actors;
 
     @ManyToMany
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JoinTable(name = "directors_movies",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "directos_id"))
