@@ -18,7 +18,8 @@ public class ActorService {
     private ActorRepository actorRepository;
 
     public Actor addActor(Actor actor) {
-        return (actorRepository.save(actor));
+        Actor savedActor = actorRepository.saveAndFlush(actor);
+        return actorRepository.save(savedActor);
     }
 
 

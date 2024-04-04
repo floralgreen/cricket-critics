@@ -13,6 +13,7 @@ import java.util.List;
 @Table(name = "actors")
 public class Actor {
     @Id
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
