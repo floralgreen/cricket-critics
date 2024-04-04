@@ -13,9 +13,9 @@ import java.util.Optional;
 @Repository
 public interface ActorRepository extends JpaRepository<Actor,Long> {
 
-    @Query(value="SELECT * FROM actor as a where a.record_status = 'A'", nativeQuery = true)
+    @Query(value="SELECT * FROM actors as a where a.record_status = 'A'", nativeQuery = true)
     List<Actor> findAllActiveActor();
 
-    @Query (value="SELECT * FROM actor as a where a.id = :id and a.record_status = 'A'", nativeQuery = true)
+    @Query (value="SELECT * FROM actors as a where a.id = :id and a.record_status = 'A'", nativeQuery = true)
     Optional<Actor> findActiveActorById(@Param("id") Long id);
 }
