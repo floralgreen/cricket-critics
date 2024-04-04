@@ -1,6 +1,7 @@
 package co.caffeinecoders.cricketcritics.services;
 
 import co.caffeinecoders.cricketcritics.entities.Movie;
+import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,48 +22,35 @@ public class MovieService {
     }
 
     public List<Movie> getAllActiveMovies() {
-        List<Movie> movies = movieRepository.findAll();
-        List<Movie> moviesActive = new ArrayList<Movie>();
-        for (Movie movie : movies) {
-            if (movie.getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                moviesActive.add(movie);
-            }
-        }
-        return moviesActive;
+        return movieRepository.findAllActiveMovies();
     }
 
     public Optional<Movie> getMovieById(Long id) {
-        Optional<Movie> movieOptional = movieRepository.findById(id);
-        if (movieOptional.isPresent()) {
-            if (movieOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                return movieOptional;
-            }
-
-        }
-        return Optional.empty();
+        Optional<Movie> movieOptional = movieRepository.findActiveMovieById(id);
+        return movieOptional;
     }
 
 
     public Optional<Movie> updateMovie(Long id, Movie movie) {
-        Optional<Movie> movieToUpdate = movieRepository.findById(id);
+        Optional<Movie> movieToUpdate = movieRepository.findActiveMovieById(id);
         if (movieToUpdate.isPresent()) {
-            if (movieToUpdate.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                movieToUpdate.get().setTitle(movie.getTitle());
-                movieToUpdate.get().setPlot(movie.getPlot());
-                movieToUpdate.get().setLanguageEnum(movie.getLanguageEnum());
-                movieToUpdate.get().setActors(movie.getActors());
-                movieToUpdate.get().setDirectors(movie.getDirectors());
-                movieToUpdate.get().setDuration(movie.getDuration());
-                movieToUpdate.get().setMovieWebSite(movie.getMovieWebSite());
-                movieToUpdate.get().setCategoryEnum(movie.getCategoryEnum());
-                movieToUpdate.get().setReleaseDate(movie.getReleaseDate());
-                movieToUpdate.get().setReviews(movie.getReviews());
-                movieRepository.save(movieToUpdate.get());
-                return movieToUpdate;
-            }
+            movieToUpdate.get().setTitle(movie.getTitle());
+            movieToUpdate.get().setPlot(movie.getPlot());
+            movieToUpdate.get().setLanguageEnum(movie.getLanguageEnum());
+            movieToUpdate.get().setActors(movie.getActors());
+            movieToUpdate.get().setDirectors(movie.getDirectors());
+            movieToUpdate.get().setDuration(movie.getDuration());
+            movieToUpdate.get().setMovieWebSite(movie.getMovieWebSite());
+            movieToUpdate.get().setCategoryEnum(movie.getCategoryEnum());
+            movieToUpdate.get().setReleaseDate(movie.getReleaseDate());
+            movieToUpdate.get().setReviews(movie.getReviews());
+            Movie movieUpdated = movieRepository.save(movieToUpdate.get());
+            return Optional.of(movieUpdated);
+        } else {
 
+            return Optional.empty();
         }
-        return Optional.empty();
+
     }
 
     /**
@@ -70,7 +58,7 @@ public class MovieService {
      * @return an Optional containing the deactivated Movie object, or an empty Optional if the object is not found
      */
     public Optional<Movie> deactivateMovieById(Long id) {
-        Optional<Movie> movieToDeactivate = movieRepository.findById(id);
+        Optional<Movie> movieToDeactivate = movieRepository.findActiveMovieById(id);
         if (movieToDeactivate.isPresent()) {
             movieToDeactivate.get().setRecordStatusEnum(RecordStatusEnum.D);
             movieRepository.save(movieToDeactivate.get());
