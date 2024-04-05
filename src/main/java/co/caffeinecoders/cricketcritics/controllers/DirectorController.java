@@ -1,7 +1,6 @@
 package co.caffeinecoders.cricketcritics.controllers;
 
 import co.caffeinecoders.cricketcritics.entities.Director;
-import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.services.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class DirectorController {
     }
     @GetMapping("/find/{id}")
     public ResponseEntity<Director> findDirector(@PathVariable Long id){
-        Optional<Director> directorOptional = service.getDirector(id);
+        Optional<Director> directorOptional = service.getActiveDirector(id);
         if (directorOptional.isPresent()){
                 return ResponseEntity.ok().body(directorOptional.get());
         }
@@ -31,7 +30,7 @@ public class DirectorController {
     }
     @GetMapping("/findall")
     public ResponseEntity<List<Director>> findAllDirector(){
-        return ResponseEntity.ok().body(service.getAllDirector());
+        return ResponseEntity.ok().body(service.getAllActiveDirector());
     }
     @PutMapping("/edit/{id}")
     public ResponseEntity<Director> updateDirector(@PathVariable Long id, @RequestBody Director director){

@@ -6,7 +6,6 @@ import co.caffeinecoders.cricketcritics.repositories.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,24 +17,12 @@ public class DirectorService {
     public Director addDirector(Director director){
         return repository.save(director);
     }
-    public Optional<Director> getDirector(Long id){
-        Optional<Director> directorOptional = repository.findById(id);
-        if (directorOptional.isPresent()){
-            if (directorOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
-                return repository.findById(id);
-            }
-        }
-        return Optional.empty();
+    public Optional<Director> getActiveDirector(Long id){
+        Optional<Director> directorOptional = repository.findActiveDirectorById(id);
+        return directorOptional;
     }
-    public List<Director> getAllDirector(){
-        List<Director> directors = repository.findAll();
-        List<Director> activeDirectors = new ArrayList<>();
-        for (Director director : directors) {
-            if (director.getRecordStatusEnum().equals(RecordStatusEnum.A)){
-                activeDirectors.add(director);
-            }
-        }
-        return activeDirectors;
+    public List<Director> getAllActiveDirector(){
+        return repository.findAllActiveDirector();
     }
     public Optional<Director> updateDirector(Director director, Long id){
         Optional<Director> directorOptional = repository.findById(id);
@@ -56,10 +43,8 @@ public class DirectorService {
     public Optional<Director> deactivateDirector(Long id){
         Optional<Director> directorOptional = repository.findById(id);
         if (directorOptional.isPresent()){
-            if (directorOptional.get().getRecordStatusEnum().equals(RecordStatusEnum.A)) {
                 directorOptional.get().setRecordStatusEnum(RecordStatusEnum.D);
                 repository.save(directorOptional.get());
-            }
         }
         return directorOptional;
     }
