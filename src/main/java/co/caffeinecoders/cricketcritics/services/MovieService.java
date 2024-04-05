@@ -36,7 +36,6 @@ public class MovieService {
         if (movieToUpdate.isPresent()) {
             movieToUpdate.get().setTitle(movie.getTitle());
             movieToUpdate.get().setPlot(movie.getPlot());
-            movieToUpdate.get().setLanguageEnum(movie.getLanguageEnum());
             movieToUpdate.get().setActors(movie.getActors());
             movieToUpdate.get().setDirectors(movie.getDirectors());
             movieToUpdate.get().setDuration(movie.getDuration());
