@@ -1,14 +1,11 @@
 package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.CategoryEnum;
-import co.caffeinecoders.cricketcritics.enums.LanguageEnum;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -18,7 +15,6 @@ import java.util.List;
 public class Movie {
 
     @Id
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -27,10 +23,6 @@ public class Movie {
 
     @Column(length = 5000)
     private String plot;
-
-    @Column(nullable = false, name = "language")
-    @Enumerated(value = EnumType.STRING)
-    private LanguageEnum languageEnum;
 
     @Column(nullable = false)
     private Integer duration;
@@ -50,7 +42,7 @@ public class Movie {
     private String movieWebSite;
 
     @OneToMany(mappedBy = "movie")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private List<Review> reviews;
 
     @Enumerated(EnumType.STRING)
@@ -79,12 +71,11 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Long id, String title, String plot, LanguageEnum languageEnum, Integer duration, Integer usersScore, Integer reviewersScore, OffsetDateTime releaseDate,
+    public Movie(Long id, String title, String plot, Integer duration, Integer usersScore, Integer reviewersScore, OffsetDateTime releaseDate,
                  String movieWebSite, List<Review> reviews, RecordStatusEnum recordStatusEnum, CategoryEnum categoryEnum, List<Actor> actors, List<Director> directors) {
         this.id = id;
         this.title = title;
         this.plot = plot;
-        this.languageEnum = languageEnum;
         this.duration = duration;
         this.usersScore = usersScore;
         this.reviewersScore = reviewersScore;
@@ -119,14 +110,6 @@ public class Movie {
 
     public void setPlot(String plot) {
         this.plot = plot;
-    }
-
-    public LanguageEnum getLanguageEnum() {
-        return languageEnum;
-    }
-
-    public void setLanguageEnum(LanguageEnum languageEnum) {
-        this.languageEnum = languageEnum;
     }
 
     public Integer getDuration() {

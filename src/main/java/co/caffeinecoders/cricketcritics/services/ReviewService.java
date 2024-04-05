@@ -49,6 +49,27 @@ public class ReviewService {
 
     /**
      *
+     * @param userId given a specific userId
+     * @return a list with all the Reviews done By the User
+     */
+    public List<Review> findAllReviewsByUserId(Long userId){
+        List<Review> reviewList = reviewRepository.findAllReviewsByUserId(userId);
+        return reviewList;
+    }
+
+    /**
+     *
+     * @param movieId given a specific movieId
+     * @return a List with all the Reviews written on that Movie by the users
+     */
+    public List<Review> findAllReviewsByMovieId(Long movieId){
+        List<Review> reviewList = reviewRepository.findAllReviewsByMovieId(movieId);
+        return reviewList;
+    }
+
+
+    /**
+     *
      * @param id
      * @param updateReview
      * @return Optional containing the updated Review object saved in the DB or returns an empty Optional if the object not found

@@ -5,14 +5,12 @@ import co.caffeinecoders.cricketcritics.enums.UserEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -36,7 +34,7 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UserEnum userEnum = UserEnum.BASICUSER;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
     public User() {

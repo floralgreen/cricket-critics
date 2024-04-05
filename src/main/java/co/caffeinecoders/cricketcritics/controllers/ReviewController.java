@@ -2,6 +2,7 @@ package co.caffeinecoders.cricketcritics.controllers;
 
 import co.caffeinecoders.cricketcritics.entities.Review;
 import co.caffeinecoders.cricketcritics.services.ReviewService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,19 @@ public class ReviewController {
     @GetMapping("/all")
     public ResponseEntity<List<Review>> findAllActiverReviews(){
         List<Review> reviewList = reviewService.findAllActiveReviews();
+        return ResponseEntity.ok(reviewList);
+    }
+
+    @GetMapping("/userReviews/{userId}")
+    @Operation(summary = "This API retrieves all the reviews written by a User by giving the User ID")
+    public ResponseEntity<List<Review>> findAllReviewsByUserId(@PathVariable Long userId){
+        List<Review> reviewList = reviewService.findAllReviewsByUserId(userId);
+        return ResponseEntity.ok(reviewList);
+    }
+    @GetMapping("/movieReviews/{movieId}")
+    @Operation(summary = "This API retrieves all the reviews written by users on a movie by giving the Movie ID")
+    public ResponseEntity<List<Review>> findAllReviewsByMovieId(@PathVariable Long movieId){
+        List<Review> reviewList = reviewService.findAllReviewsByUserId(movieId);
         return ResponseEntity.ok(reviewList);
     }
 
