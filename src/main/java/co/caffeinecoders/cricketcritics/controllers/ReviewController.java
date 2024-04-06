@@ -21,6 +21,7 @@ public class ReviewController {
 
     //POST
     @PostMapping("/create")
+    @Operation(summary = "This API creates a Review on the DB based on the User who authored it and the Movie for which the review has been written. And returns the object created for confirmation")
     public ResponseEntity<Review> createReview(@RequestBody Review reviewToCreate){
         Review createdReview = reviewService.createReview(reviewToCreate);
         return ResponseEntity.ok(createdReview);
@@ -28,6 +29,7 @@ public class ReviewController {
 
     //GET
     @GetMapping("/{id}")
+    @Operation(summary = "This API retrives the Review object by the given ID, it returns notFound if the resource is not present in the DB")
     public ResponseEntity<Review> findActiveReviewById(@PathVariable Long id){
         Optional<Review> foundReview = reviewService.findActiveReviewById(id);
         if (foundReview.isEmpty()){
@@ -37,6 +39,7 @@ public class ReviewController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "This API retrives a List with all the Review objects setted as 'Active' in the DB, it returns an empty List if none of it is Active")
     public ResponseEntity<List<Review>> findAllActiverReviews(){
         List<Review> reviewList = reviewService.findAllActiveReviews();
         return ResponseEntity.ok(reviewList);
@@ -57,6 +60,7 @@ public class ReviewController {
 
     //PUT
     @PutMapping("/edit/{id}")
+    @Operation(summary = "This API updates the Review matching by the given ID with the new Review given by RequestBody, only updatable fields are Description and Score, it returns notFound if the resource is not present or set as status 'Deactivated'")
     public ResponseEntity<Review> updateReviewById(@PathVariable Long id, @RequestBody Review reviewUpdate){
         Optional<Review> updatedReview = reviewService.updateReview(id,reviewUpdate);
         if (updatedReview.isEmpty()){
@@ -66,6 +70,7 @@ public class ReviewController {
     }
 
     @PutMapping("/like/{id}")
+    @Operation(summary = "This API adds to the likesCounter of the Review found by the given ID a +1 value each time this is called, it returns the Review updated, or notFound if the resource is absent")
     public ResponseEntity<Review> addLikeToReview(@PathVariable Long id){
         Optional<Review> increasedReview = reviewService.addLikeToCounter(id);
         if (increasedReview.isEmpty()){
@@ -75,6 +80,7 @@ public class ReviewController {
     }
 
     @PutMapping("/deactivate/{id}")
+    @Operation(summary = "This API deactivates the Review by the given ID, and set the status as ìDeactivated', it returns the deactivated object or notFound if the resource is Absent or already deactivated")
     public ResponseEntity<Review> deactivateReviewById(@PathVariable Long id){
         Optional<Review> deactivatedReview = reviewService.deactivateReviewById(id);
         if (deactivatedReview.isEmpty()){
