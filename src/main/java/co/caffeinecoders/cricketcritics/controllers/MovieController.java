@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.controllers;
 
+import co.caffeinecoders.cricketcritics.entities.Director;
 import co.caffeinecoders.cricketcritics.entities.Movie;
 import co.caffeinecoders.cricketcritics.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ public class MovieController {
         return ResponseEntity.ok().body(movieOptional.get());
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Movie>> findAllActiveMovies() {
+        List<Movie> allActiveMovies = movieService.getAllActiveMovies();
+        return ResponseEntity.ok(allActiveMovies);
+    }
+
     @PutMapping("/edit/{id}")
     public ResponseEntity<Movie> updateMovieById(@RequestBody Movie movie, @PathVariable Long id) {
         Optional<Movie> movieOptional = movieService.updateMovie(id, movie);
@@ -40,11 +47,16 @@ public class MovieController {
         return ResponseEntity.ok().body(movieOptional.get());
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Movie>> findAllActiveMovies() {
-        List<Movie> allActiveMovies = movieService.getAllActiveMovies();
-        return ResponseEntity.ok(allActiveMovies);
+    //TODO generalizzare con classe padre director e actor
+    @PutMapping("/updateDirectors/{movieId}")
+    public ResponseEntity<Movie> updateDirectors(@PathVariable Long movieId, @RequestBody List<Director> directorList){
+        Optional<Movie> movieOptional = movieService.addDirectorsToMovie(movieId, directorList);
+        if (movieOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(movieOptional.get());
     }
+
 
     @PutMapping("/deactivate/{id}")
     public ResponseEntity<Movie> deactivateMovieById(@PathVariable Long id){

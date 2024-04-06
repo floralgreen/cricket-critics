@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.services;
 
+import co.caffeinecoders.cricketcritics.entities.Director;
 import co.caffeinecoders.cricketcritics.entities.Movie;
 import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
@@ -50,6 +51,19 @@ public class MovieService {
             return Optional.empty();
         }
 
+    }
+
+    public Optional<Movie> addDirectorsToMovie(Long id, List<Director> directorList){
+        Optional<Movie> movieOptional = movieRepository.findActiveMovieById(id);
+        if (movieOptional.isPresent()){
+            for (Director director : directorList) {
+                if (!movieOptional.get().getDirectors().contains(director)){
+                    movieOptional.get().getDirectors().add(director);
+                }
+            }
+            movieRepository.save(movieOptional.get());
+        }
+        return movieOptional;
     }
 
     /**

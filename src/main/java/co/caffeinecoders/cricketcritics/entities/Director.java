@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "directors")
 public class Director {
     @Id
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(nullable = false)
