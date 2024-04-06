@@ -10,16 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/director")
 public class DirectorController {
+
     @Autowired
     private DirectorService service;
+
+
 
     @PostMapping("/create")
     public ResponseEntity<Director> addDirector(@RequestBody Director director){
         return ResponseEntity.ok().body(service.addDirector(director));
     }
+
     @GetMapping("/find/{id}")
     public ResponseEntity<Director> findDirector(@PathVariable Long id){
         Optional<Director> directorOptional = service.getActiveDirector(id);
@@ -28,10 +32,12 @@ public class DirectorController {
         }
         return ResponseEntity.notFound().build();
     }
+
     @GetMapping("/findall")
     public ResponseEntity<List<Director>> findAllDirector(){
         return ResponseEntity.ok().body(service.getAllActiveDirector());
     }
+
     @PutMapping("/edit/{id}")
     public ResponseEntity<Director> updateDirector(@PathVariable Long id, @RequestBody Director director){
         Optional<Director> directorOptional = service.updateDirector(director, id);
@@ -40,6 +46,7 @@ public class DirectorController {
         }
         return ResponseEntity.notFound().build();
     }
+
     @PutMapping("/deactivate/{id}")
     public ResponseEntity<Director> deactivateDirector(@PathVariable Long id){
         Optional<Director> directorOptional = service.deactivateDirector(id);
@@ -48,4 +55,5 @@ public class DirectorController {
         }
         return ResponseEntity.notFound().build();
     }
+
 }

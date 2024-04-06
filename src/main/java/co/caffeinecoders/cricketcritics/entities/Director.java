@@ -1,6 +1,8 @@
 package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @Table(name = "directors")
 public class Director {
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(nullable = false)
@@ -26,14 +29,14 @@ public class Director {
     @Column
     private String placeOFBirth;
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @JsonIgnore
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
 
     @ManyToMany(mappedBy = "directors")
+    @JsonIgnore
     private List<Movie> movies;
 
-    //TODO ADD CANCELLAZIONE LOGICA
 
     public Director() {
     }
