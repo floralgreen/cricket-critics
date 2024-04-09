@@ -69,6 +69,8 @@ public class ReviewController {
         return ResponseEntity.ok(updatedReview.get());
     }
 
+    //TODO creare controllo per un solo like a persona
+    //TODO creare metodo unlike
     @PutMapping("/like/{id}")
     @Operation(summary = "This API adds to the likesCounter of the Review found by the given ID a +1 value each time this is called, it returns the Review updated, or notFound if the resource is absent")
     public ResponseEntity<Review> addLikeToReview(@PathVariable Long id){
