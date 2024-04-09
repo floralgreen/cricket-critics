@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private final Integer REVIEW_REQUIRMENT = 50;
+    private final Integer REVIEW_REQUIRMENT = 25;
     private final Integer LIKES_REQUIRMENT = 250;
 
 
