@@ -81,7 +81,7 @@ public class ReviewController {
         return ResponseEntity.ok(increasedReview.get());
     }
 
-    @PutMapping("/deactivate/{id}")
+    @PutMapping("/delete/{id}")
     @Operation(summary = "This API deactivates the Review by the given ID, and set the status as ìDeactivated', it returns the deactivated object or notFound if the resource is Absent or already deactivated")
     public ResponseEntity<Review> deactivateReviewById(@PathVariable Long id){
         Optional<Review> deactivatedReview = reviewService.deactivateReviewById(id);

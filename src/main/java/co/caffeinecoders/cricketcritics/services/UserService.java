@@ -1,8 +1,13 @@
 package co.caffeinecoders.cricketcritics.services;
 
+import co.caffeinecoders.cricketcritics.entities.DTO.PersonalizedResponse;
+import co.caffeinecoders.cricketcritics.entities.Review;
 import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import co.caffeinecoders.cricketcritics.enums.UserEnum;
 import co.caffeinecoders.cricketcritics.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +18,11 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    private final Integer REVIEW_REQUIRMENT = 50;
+    private final Integer LIKES_REQUIRMENT = 250;
+
+
 
     public User addUser(User user) {
         return userRepository.save(user);
@@ -44,6 +54,39 @@ public class UserService {
         }
     }
 
+    /**
+     *
+     * @param id given the User ID to upgrade
+     * @return PersonalizedResponse with 3 status
+     * OK(user satisfy requisites and is upgraded + user object upgraded)
+     * NOT_ALLOWRD(user doesn't satisfy requisites + user object not modified
+     * NOT FOUND(User with given ID is not Found or deleted)
+     */
+    public PersonalizedResponse upgradeUser(Long id) {
+        Optional<User> userOptional = userRepository.findActiveUserById(id);
+        PersonalizedResponse personalizedResponse = new PersonalizedResponse(HttpServletResponse.SC_NOT_FOUND, "User Not Found", Optional.empty());
+
+        if (userOptional.isPresent()) {
+            boolean isUpgradable = checkRequirements(userOptional.get());
+            if (isUpgradable) {
+                userOptional.get().setUserEnum(UserEnum.REVIEWER);
+                userRepository.save(userOptional.get());
+
+                personalizedResponse.setStatus(HttpServletResponse.SC_OK);
+                personalizedResponse.setMessage("User successfully upgraded to REVIEWER");
+                personalizedResponse.setEntity(userOptional.get());
+            } else {
+                personalizedResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                personalizedResponse.setMessage("User cannot be upgraded to REVIEWER");
+                personalizedResponse.setEntity(userOptional.get());
+            }
+        }
+
+        return personalizedResponse;
+    }
+
+
+
     public Optional<User> deactivateUserById(Long id) {
         Optional<User> userToDeactivate = userRepository.findActiveUserById(id);
         if (userToDeactivate.isPresent()) {
@@ -51,6 +94,22 @@ public class UserService {
             userRepository.save(userToDeactivate.get());
         }
         return userToDeactivate;
+    }
+
+    private boolean checkRequirements(User userToCheck){
+        boolean isUpgradable = false;
+        List<Review> reviews = userToCheck.getReviews();
+        Integer likesSum = 0;
+
+        if (reviews.size() >= REVIEW_REQUIRMENT) {
+            for (Review review : reviews) {
+                likesSum += review.getLikesCounter();
+            }
+            if (likesSum >= LIKES_REQUIRMENT) {
+                isUpgradable = true;
+            }
+        }
+        return isUpgradable;
     }
 }
 

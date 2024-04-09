@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.controllers;
 
+import co.caffeinecoders.cricketcritics.entities.DTO.PersonalizedResponse;
 import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,14 @@ public class UserController {
         }
         return ResponseEntity.ok().body(userOptional.get());
     }
-    @PutMapping("/deactivate/{id}")
+
+    @PutMapping("/upgrade/{id}")
+    public ResponseEntity<PersonalizedResponse> upgradeUser(@PathVariable Long id){
+        PersonalizedResponse personalizedResponse = service.upgradeUser(id);
+        return ResponseEntity.status(personalizedResponse.getStatus()).body(personalizedResponse);
+    }
+
+    @PutMapping("/delete/{id}")
     public ResponseEntity<User> deactivateUserById(@PathVariable Long id){
         Optional<User> deactivatedUser = service.deactivateUserById(id);
         if (deactivatedUser.isEmpty()){
