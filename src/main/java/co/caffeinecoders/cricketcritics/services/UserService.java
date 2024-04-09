@@ -9,6 +9,8 @@ import co.caffeinecoders.cricketcritics.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +25,8 @@ public class UserService {
     private final Integer LIKES_REQUIRMENT = 250;
 
 
-
     public User addUser(User user) {
+        user.setPassword(cryptPassword(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -96,6 +98,11 @@ public class UserService {
         return userToDeactivate;
     }
 
+    /**
+     * Utility method
+     * @param userToCheck given a User to check
+     * @return true if the user satisfies the requirements false if not
+     */
     private boolean checkRequirements(User userToCheck){
         boolean isUpgradable = false;
         List<Review> reviews = userToCheck.getReviews();
@@ -110,6 +117,16 @@ public class UserService {
             }
         }
         return isUpgradable;
+    }
+
+    /**
+     *
+     * @param password given a String containing a user password
+     * @return the hashed password by the BCryptPasswordEncoder
+     */
+    private String cryptPassword(String password) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 }
 
