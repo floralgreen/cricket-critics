@@ -3,6 +3,7 @@ package co.caffeinecoders.cricketcritics.controllers;
 import co.caffeinecoders.cricketcritics.entities.DTO.PersonalizedResponse;
 import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ public class UserController {
     }
 
     @PutMapping("/upgrade/{id}")
+    @Operation(summary = "This API upgrades the User corresponding to the given ID, and returns a Response Message if the Upgraded has been successful, not successful because of the requierments not satisfied or not found if the User is not Found or deleted")
     public ResponseEntity<PersonalizedResponse> upgradeUser(@PathVariable Long id){
         PersonalizedResponse personalizedResponse = service.upgradeUser(id);
         return ResponseEntity.status(personalizedResponse.getStatus()).body(personalizedResponse);
