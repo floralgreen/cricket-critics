@@ -57,7 +57,7 @@ public class MovieController {
         }
         return ResponseEntity.ok().body(movieOptional.get());
     }
-    @PutMapping("/updateDirectors/{movieId}")
+    @PutMapping("/updateActors/{actorId}")
     public ResponseEntity<Movie> updateActors(@PathVariable Long movieId, @RequestBody List<Actor> actorList){
         Optional<Movie> movieOptional = movieService.addActorsToMovie(movieId, actorList);
         if (movieOptional.isEmpty()){
