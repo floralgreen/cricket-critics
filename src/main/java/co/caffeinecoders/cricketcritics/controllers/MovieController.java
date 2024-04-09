@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.controllers;
 
+import co.caffeinecoders.cricketcritics.entities.Actor;
 import co.caffeinecoders.cricketcritics.entities.Director;
 import co.caffeinecoders.cricketcritics.entities.Movie;
 import co.caffeinecoders.cricketcritics.services.MovieService;
@@ -56,6 +57,15 @@ public class MovieController {
         }
         return ResponseEntity.ok().body(movieOptional.get());
     }
+    @PutMapping("/updateDirectors/{movieId}")
+    public ResponseEntity<Movie> updateActors(@PathVariable Long movieId, @RequestBody List<Actor> actorList){
+        Optional<Movie> movieOptional = movieService.addActorsToMovie(movieId, actorList);
+        if (movieOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(movieOptional.get());
+    }
+
 
 
     @PutMapping("/deactivate/{id}")

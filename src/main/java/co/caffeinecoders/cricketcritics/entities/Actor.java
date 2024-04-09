@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "actors")
 public class Actor {
     @Id
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -33,8 +32,9 @@ public class Actor {
     @JsonIgnore
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+
     @ManyToMany(mappedBy = "actors")
+    @JsonIgnore
     private List<Movie> movies;
 
 

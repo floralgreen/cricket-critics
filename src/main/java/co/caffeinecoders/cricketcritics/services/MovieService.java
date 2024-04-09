@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.services;
 
+import co.caffeinecoders.cricketcritics.entities.Actor;
 import co.caffeinecoders.cricketcritics.entities.Director;
 import co.caffeinecoders.cricketcritics.entities.Movie;
 import co.caffeinecoders.cricketcritics.entities.User;
@@ -59,6 +60,18 @@ public class MovieService {
             for (Director director : directorList) {
                 if (!movieOptional.get().getDirectors().contains(director)){
                     movieOptional.get().getDirectors().add(director);
+                }
+            }
+            movieRepository.save(movieOptional.get());
+        }
+        return movieOptional;
+    }
+    public Optional<Movie> addActorsToMovie(Long id, List<Actor> actorList){
+        Optional<Movie> movieOptional = movieRepository.findActiveMovieById(id);
+        if (movieOptional.isPresent()){
+            for (Actor actor : actorList) {
+                if (!movieOptional.get().getActors().contains(actor)){
+                    movieOptional.get().getActors().add(actor);
                 }
             }
             movieRepository.save(movieOptional.get());
