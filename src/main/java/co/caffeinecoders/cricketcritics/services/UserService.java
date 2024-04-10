@@ -46,7 +46,7 @@ public class UserService {
             userOptional.get().setName(user.getName());
             userOptional.get().setLastName(user.getLastName());
             userOptional.get().setEmail(user.getEmail());
-            userOptional.get().setPassword(user.getPassword());
+            userOptional.get().setPassword(cryptPassword(user.getPassword()));
             User userUpdated = userRepository.save(userOptional.get());
 
             return Optional.of(userUpdated);
