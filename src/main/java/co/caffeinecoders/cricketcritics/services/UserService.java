@@ -39,6 +39,11 @@ public class UserService {
         return userOptional;
     }
 
+    public Optional<User> getUserFromUsername(String username) {
+        Optional<User> userOptional = userRepository.findActiveUserByUsername(username);
+        return userOptional;
+    }
+
     public Optional<User> updateUser(Long id, User user) {
         Optional<User> userOptional = userRepository.findActiveUserById(id);
         if (userOptional.isPresent()) {
