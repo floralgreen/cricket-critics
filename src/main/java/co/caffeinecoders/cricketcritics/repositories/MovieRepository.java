@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,4 +25,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query(value = "SELECT * FROM movies as m where m.users_score >= :inputValue and m.record_status = 'A'", nativeQuery = true)
     List<Movie> findMovieByUsersScore(@Param("inputValue") Integer inputValue);
 
+    @Query(value = "SELECT * FROM movies as m where m.title = :inputValue and m.record_status = 'A'", nativeQuery = true)
+    List<Movie> findMovieByTitle(@Param("inputValue") String inputValue);
+
+    @Query(value = "SELECT * FROM movies as m where m.release_date >= :startingData and m.release_date <= :endingData and m.record_status = 'A'", nativeQuery = true)
+    List<Movie> findMovieInRangeDate(@Param("startingData") OffsetDateTime startingData, @Param("endingData") OffsetDateTime endingData);
 }

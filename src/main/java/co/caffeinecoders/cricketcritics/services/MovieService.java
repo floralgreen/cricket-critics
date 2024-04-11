@@ -9,6 +9,7 @@ import co.caffeinecoders.cricketcritics.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,6 +86,14 @@ public class MovieService {
 
     public List<Movie> findMovieByUsersScore(Integer inputValue){
         return movieRepository.findMovieByUsersScore(inputValue);
+    }
+
+    public List<Movie> findMovieByTitle(String inputValue){
+        return movieRepository.findMovieByTitle(inputValue);
+    }
+
+    public List<Movie> findMovieInRangeDate(OffsetDateTime startingData, OffsetDateTime endingData){
+        return movieRepository.findMovieInRangeDate(startingData, endingData);
     }
 
     /**
