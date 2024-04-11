@@ -18,4 +18,10 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query (value="SELECT * FROM movies as m where m.id = :id and m.record_status = 'A'", nativeQuery = true)
     Optional<Movie> findActiveMovieById(@Param("id") Long id);
 
+    @Query (value = "SELECT * FROM movies as m where m.reviewers_score >= :inputValue and m.record_status = 'A'", nativeQuery = true)
+    List<Movie> findMovieByReviewersScore(@Param("inputValue") Integer inputValue);
+
+    @Query(value = "SELECT * FROM movies as m where m.users_score >= :inputValue and m.record_status = 'A'", nativeQuery = true)
+    List<Movie> findMovieByUsersScore(@Param("inputValue") Integer inputValue);
+
 }

@@ -79,6 +79,14 @@ public class MovieService {
         return movieOptional;
     }
 
+    public List<Movie> findMovieByReviewersScore(Integer inputValue){
+        return movieRepository.findMovieByReviewersScore(inputValue);
+    }
+
+    public List<Movie> findMovieByUsersScore(Integer inputValue){
+        return movieRepository.findMovieByUsersScore(inputValue);
+    }
+
     /**
      * @param id
      * @return an Optional containing the deactivated Movie object, or an empty Optional if the object is not found

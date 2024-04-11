@@ -39,6 +39,18 @@ public class MovieController {
         return ResponseEntity.ok(allActiveMovies);
     }
 
+    @GetMapping("/byReviewersScore")
+    public ResponseEntity<List<Movie>> findMovieByReviewersScore(@RequestParam Integer inputValue){
+        List<Movie> movieList = movieService.findMovieByReviewersScore(inputValue);
+        return ResponseEntity.ok(movieList);
+    }
+
+    @GetMapping("/byUsersScore")
+    public ResponseEntity<List<Movie>> findMovieByUsersScore(@RequestParam Integer inputValue){
+        List<Movie> movieList = movieService.findMovieByUsersScore(inputValue);
+        return ResponseEntity.ok(movieList);
+    }
+
     @PutMapping("/edit/{id}")
     public ResponseEntity<Movie> updateMovieById(@RequestBody Movie movie, @PathVariable Long id) {
         Optional<Movie> movieOptional = movieService.updateMovie(id, movie);

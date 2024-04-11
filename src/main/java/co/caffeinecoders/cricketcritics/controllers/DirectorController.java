@@ -47,7 +47,7 @@ public class DirectorController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/deactivate/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<Director> deactivateDirector(@PathVariable Long id){
         Optional<Director> directorOptional = service.deactivateDirector(id);
         if (directorOptional.isPresent()){
