@@ -56,6 +56,14 @@ public class MovieController {
         List<Movie> movieList = movieService.findMovieByUsersScore(inputValue);
         return ResponseEntity.ok(movieList);
     }
+    @GetMapping("/findMovieByActor")
+    public ResponseEntity<List<Movie>> findMoviesByActor(@RequestParam Long actorId) {
+        return ResponseEntity.ok(movieService.findMoviesByActorId(actorId));
+    }
+    @GetMapping("/findMovieByDirector")
+    public ResponseEntity<List<Movie>> findMoviesByDirector(@RequestParam Long directorId) {
+        return ResponseEntity.ok(movieService.findMoviesByDirectorId(directorId));
+    }
 
     @GetMapping("/byTitle")
     public ResponseEntity<List<Movie>> findMovieByTitle(@RequestParam String inputValue){

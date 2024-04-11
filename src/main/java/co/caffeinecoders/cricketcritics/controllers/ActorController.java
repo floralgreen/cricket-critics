@@ -44,7 +44,7 @@ public class ActorController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/deactivate/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<Actor> deactivateReviewById(@PathVariable Long id){
         Optional<Actor> deactivatedActor = actorService.deactivateAcotrById(id);
         if (deactivatedActor.isEmpty()){

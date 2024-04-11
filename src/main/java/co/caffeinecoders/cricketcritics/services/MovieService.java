@@ -33,6 +33,13 @@ public class MovieService {
         return movieOptional;
     }
 
+    public List<Movie> findMoviesByActorId(Long actorId) {
+        return movieRepository.findMovieByActorId(actorId);
+    }
+    public List<Movie> findMoviesByDirectorId(Long directorId) {
+        return movieRepository.findMovieByDirectorId(directorId);
+    }
+
 
     public Optional<Movie> updateMovie(Long id, Movie movie) {
         Optional<Movie> movieToUpdate = movieRepository.findActiveMovieById(id);

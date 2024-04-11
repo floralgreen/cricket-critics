@@ -65,7 +65,7 @@ public class Movie {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JoinTable(name = "directors_movies",
             joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "directos_id"))
+            inverseJoinColumns = @JoinColumn(name = "director_id"))
     private List<Director> directors;
 
     public Movie() {
