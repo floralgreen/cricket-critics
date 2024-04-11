@@ -21,4 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM users as u where u.user_name = :username", nativeQuery = true)
     Optional<User> findActiveUserByUsername(String username);
+
+    @Query(value= "SELECT u.id,u.user_name,u.name,u.last_name,u.email,u.password,u.record_status,u.user_enum FROM users as u JOIN reviews as r ON u.id = r.user_id GROUP BY(u.id) HAVING COUNT(r.id) >= :n_reviews",nativeQuery = true)
+    List<User> findAllUsersWithReviews(@Param("n_reviews") Integer nReviews);
+
 }

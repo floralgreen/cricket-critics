@@ -39,6 +39,12 @@ public class UserService {
         return userOptional;
     }
 
+    public List<User> findUserByReview(Integer reviewNumeber) {
+        List<User> userList = userRepository.findAllUsersWithReviews(reviewNumeber);
+        return userList;
+
+    }
+
     public Optional<User> getUserFromUsername(String username) {
         Optional<User> userOptional = userRepository.findActiveUserByUsername(username);
         return userOptional;
@@ -62,7 +68,6 @@ public class UserService {
     }
 
     /**
-     *
      * @param id given the User ID to upgrade
      * @return PersonalizedResponse with 3 status
      * OK(user satisfy requisites and is upgraded + user object upgraded)
@@ -93,7 +98,6 @@ public class UserService {
     }
 
 
-
     public Optional<User> deactivateUserById(Long id) {
         Optional<User> userToDeactivate = userRepository.findActiveUserById(id);
         if (userToDeactivate.isPresent()) {
@@ -103,12 +107,16 @@ public class UserService {
         return userToDeactivate;
     }
 
+
+    // utility methods
+
     /**
      * Utility method
+     *
      * @param userToCheck given a User to check
      * @return true if the user satisfies the requirements false if not
      */
-    private boolean checkRequirements(User userToCheck){
+    private boolean checkRequirements(User userToCheck) {
         boolean isUpgradable = false;
         List<Review> reviews = userToCheck.getReviews();
         Integer likesSum = 0;
@@ -125,7 +133,6 @@ public class UserService {
     }
 
     /**
-     *
      * @param password given a String containing a user password
      * @return the hashed password by the BCryptPasswordEncoder
      */
@@ -133,6 +140,8 @@ public class UserService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
+
+
 }
 
 

@@ -47,6 +47,11 @@ public class UserController {
         }
         return ResponseEntity.ok(userOptional.get());
     }
+    @GetMapping("/findByReviewsNumber")
+    public ResponseEntity<List<User>> findUserByReviews(@RequestParam Integer reviewNumber) {
+        List<User> userList = service.findUserByReview(reviewNumber);
+        return ResponseEntity.ok(userList);
+    }
 
     //PUT
     @PutMapping("/edit/{id}")
@@ -73,6 +78,10 @@ public class UserController {
         }
         return ResponseEntity.ok(deactivatedUser.get());
     }
+
+
+
+
 
 }
 
