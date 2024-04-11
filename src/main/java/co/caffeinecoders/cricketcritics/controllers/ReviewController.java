@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.controllers;
 
+import co.caffeinecoders.cricketcritics.entities.DTO.PersonalizedResponse;
 import co.caffeinecoders.cricketcritics.entities.Review;
 import co.caffeinecoders.cricketcritics.services.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,9 +23,9 @@ public class ReviewController {
     //POST
     @PostMapping("/create")
     @Operation(summary = "This API creates a Review on the DB based on the User who authored it and the Movie for which the review has been written. And returns the object created for confirmation")
-    public ResponseEntity<Review> createReview(@RequestBody Review reviewToCreate){
-        Review createdReview = reviewService.createReview(reviewToCreate);
-        return ResponseEntity.ok(createdReview);
+    public ResponseEntity<PersonalizedResponse> createReview(@RequestBody Review reviewToCreate){
+        PersonalizedResponse createdReview = reviewService.createReview(reviewToCreate);
+        return ResponseEntity.status(createdReview.getStatus()).body(createdReview);
     }
 
     //GET

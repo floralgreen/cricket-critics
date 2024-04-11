@@ -1,8 +1,10 @@
 package co.caffeinecoders.cricketcritics.services;
 
+import co.caffeinecoders.cricketcritics.entities.DTO.PersonalizedResponse;
 import co.caffeinecoders.cricketcritics.entities.Review;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.repositories.ReviewRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,10 @@ import java.util.Optional;
 
 @Service
 public class ReviewService {
+
+    private final Integer MINIMUM_SCORE = 0;
+    private final Integer MAX_SCORE = 100;
+
 
     //BASIC CRUD
 
@@ -22,9 +28,18 @@ public class ReviewService {
      * @param review
      * @return the created review saved in the database
      */
-    public Review createReview(Review review){
-        Review createdReview = reviewRepository.save(review);
-        return createdReview;
+    public PersonalizedResponse createReview(Review review){
+        boolean isValid = checkValidScore(review.getScore());
+        PersonalizedResponse response = new PersonalizedResponse(HttpServletResponse.SC_BAD_REQUEST, "Review creation failed", Optional.empty());
+
+        if (isValid){
+            Review createdReview = reviewRepository.save(review);
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            response.setMessage("Review created successfully");
+            response.setEntity(createdReview);
+        }
+
+        return response;
     }
 
     /**
@@ -112,6 +127,15 @@ public class ReviewService {
             reviewRepository.save(reviewToDeactivate.get());
         }
         return reviewToDeactivate;
+    }
+
+    private boolean checkValidScore(Integer scoreToCheck){
+        boolean isValid = false;
+        if (scoreToCheck >= MINIMUM_SCORE && scoreToCheck <= MAX_SCORE){
+            isValid = true;
+        }
+
+        return isValid;
     }
 
 
