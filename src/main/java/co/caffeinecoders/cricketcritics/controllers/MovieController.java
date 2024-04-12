@@ -104,6 +104,15 @@ public class MovieController {
         return ResponseEntity.ok().body(movieOptional.get());
     }
 
+    @PutMapping("/updateScores/{id}")
+    public ResponseEntity<Movie> updateScores(@PathVariable Long id){
+        Optional<Movie> movieOptional = movieService.updatedMovieScores(id);
+        if (movieOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(movieOptional.get());
+    }
+
 
 
     @PutMapping("/deactivate/{id}")

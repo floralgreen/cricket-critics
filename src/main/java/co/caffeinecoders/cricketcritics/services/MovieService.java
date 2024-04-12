@@ -3,14 +3,14 @@ package co.caffeinecoders.cricketcritics.services;
 import co.caffeinecoders.cricketcritics.entities.Actor;
 import co.caffeinecoders.cricketcritics.entities.Director;
 import co.caffeinecoders.cricketcritics.entities.Movie;
-import co.caffeinecoders.cricketcritics.entities.User;
+import co.caffeinecoders.cricketcritics.entities.Review;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import co.caffeinecoders.cricketcritics.enums.UserEnum;
 import co.caffeinecoders.cricketcritics.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +36,7 @@ public class MovieService {
     public List<Movie> findMoviesByActorId(Long actorId) {
         return movieRepository.findMovieByActorId(actorId);
     }
+
     public List<Movie> findMoviesByDirectorId(Long directorId) {
         return movieRepository.findMovieByDirectorId(directorId);
     }
@@ -62,11 +63,32 @@ public class MovieService {
 
     }
 
-    public Optional<Movie> addDirectorsToMovie(Long id, List<Director> directorList){
+    public Optional<Movie> updatedMovieScores(Long id) {
         Optional<Movie> movieOptional = movieRepository.findActiveMovieById(id);
-        if (movieOptional.isPresent()){
+        if (movieOptional.isPresent()) {
+            List<Review> reviewsUsersList = movieOptional.get().getReviews().stream().filter(r -> r.getUser().getUserEnum().equals(UserEnum.BASICUSER)).toList();
+            List<Review> reviewsReviewersList = movieOptional.get().getReviews().stream().filter(r -> r.getUser().getUserEnum().equals(UserEnum.REVIEWER)).toList();
+
+            //Controlla che non sia Zero altrimenti la media non funziona
+            if (reviewsUsersList.size() > 0 ) {
+                movieOptional.get().setUsersScore(calculateMedian(reviewsUsersList));
+            }
+            if (reviewsReviewersList.size() > 0 ) {
+                movieOptional.get().setReviewersScore(calculateMedian(reviewsReviewersList));
+            }
+
+
+
+            movieRepository.save(movieOptional.get());
+        }
+        return movieOptional;
+    }
+
+    public Optional<Movie> addDirectorsToMovie(Long id, List<Director> directorList) {
+        Optional<Movie> movieOptional = movieRepository.findActiveMovieById(id);
+        if (movieOptional.isPresent()) {
             for (Director director : directorList) {
-                if (!movieOptional.get().getDirectors().contains(director)){
+                if (!movieOptional.get().getDirectors().contains(director)) {
                     movieOptional.get().getDirectors().add(director);
                 }
             }
@@ -74,11 +96,12 @@ public class MovieService {
         }
         return movieOptional;
     }
-    public Optional<Movie> addActorsToMovie(Long id, List<Actor> actorList){
+
+    public Optional<Movie> addActorsToMovie(Long id, List<Actor> actorList) {
         Optional<Movie> movieOptional = movieRepository.findActiveMovieById(id);
-        if (movieOptional.isPresent()){
+        if (movieOptional.isPresent()) {
             for (Actor actor : actorList) {
-                if (!movieOptional.get().getActors().contains(actor)){
+                if (!movieOptional.get().getActors().contains(actor)) {
                     movieOptional.get().getActors().add(actor);
                 }
             }
@@ -87,19 +110,19 @@ public class MovieService {
         return movieOptional;
     }
 
-    public List<Movie> findMovieByReviewersScore(Integer inputValue){
+    public List<Movie> findMovieByReviewersScore(Integer inputValue) {
         return movieRepository.findMovieByReviewersScore(inputValue);
     }
 
-    public List<Movie> findMovieByUsersScore(Integer inputValue){
+    public List<Movie> findMovieByUsersScore(Integer inputValue) {
         return movieRepository.findMovieByUsersScore(inputValue);
     }
 
-    public List<Movie> findMovieByTitle(String inputValue){
+    public List<Movie> findMovieByTitle(String inputValue) {
         return movieRepository.findMovieByTitle(inputValue);
     }
 
-    public List<Movie> findMovieInRangeDate(OffsetDateTime startingData, OffsetDateTime endingData){
+    public List<Movie> findMovieInRangeDate(OffsetDateTime startingData, OffsetDateTime endingData) {
         return movieRepository.findMovieInRangeDate(startingData, endingData);
     }
 
@@ -114,5 +137,17 @@ public class MovieService {
             movieRepository.save(movieToDeactivate.get());
         }
         return movieToDeactivate;
+    }
+
+    //UTILITY METHODS
+
+    private Integer calculateMedian(List<Review> reviewsListFiltered) {
+        Integer sum = 0;
+        Integer median;
+        for (Review review : reviewsListFiltered) {
+            sum += review.getScore();
+        }
+        median = sum / reviewsListFiltered.size();
+        return median;
     }
 }

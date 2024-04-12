@@ -4,7 +4,6 @@ import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.OffsetDateTime;
 
@@ -31,12 +30,10 @@ public class Review {
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
