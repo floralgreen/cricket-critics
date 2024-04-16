@@ -75,6 +75,13 @@ public class MovieController {
         return ResponseEntity.ok(movieList);
     }
 
+    @GetMapping("/byCategory")
+    @Operation(summary = "This API retrieves a List with all the movies where a certain title given in input")
+    public ResponseEntity<List<Movie>> findMovieByCategory(@RequestParam String inputValue){
+        List<Movie> movieList = movieService.findMovieByCategory(inputValue);
+        return ResponseEntity.ok(movieList);
+    }
+
     @GetMapping("/byRangeDate")
     @Operation(summary = "This API retrieves a List with all the movies situated in a specific range date given in input")
     public ResponseEntity<List<Movie>> findMovieByRangeDate(@RequestParam OffsetDateTime startingDate, @RequestParam OffsetDateTime endingDate){

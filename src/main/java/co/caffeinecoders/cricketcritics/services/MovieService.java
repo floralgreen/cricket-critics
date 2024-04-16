@@ -126,6 +126,10 @@ public class MovieService {
         return movieRepository.findMovieInRangeDate(startingData, endingData);
     }
 
+    public List<Movie> findMovieByCategory(String inputValue) {
+        return movieRepository.findMovieByCategory(inputValue);
+    }
+
     /**
      * @param id
      * @return an Optional containing the deactivated Movie object, or an empty Optional if the object is not found

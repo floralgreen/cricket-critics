@@ -37,4 +37,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query(value = "SELECT * FROM movies as m where m.release_date >= :startingData and m.release_date <= :endingData and m.record_status = 'A'", nativeQuery = true)
     List<Movie> findMovieInRangeDate(@Param("startingData") OffsetDateTime startingData, @Param("endingData") OffsetDateTime endingData);
+
+    @Query(value = "SELECT * FROM movies as m where m.category = :inputValue and m.record_status = 'A'", nativeQuery = true)
+    List<Movie> findMovieByCategory(@Param("inputValue") String inputValue);
 }

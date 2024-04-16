@@ -3,14 +3,14 @@ package co.caffeinecoders.cricketcritics.enums;
 public enum CategoryEnum {
     ACTION,
     ANIMATION,
-    COMMEDY,
+    COMEDY,
     CRIME,
     DOCUMENTARY,
-    DRAMATIC,
+    DRAMA,
     FANTASY,
     HORROR,
     SCI_FI,
-    TRILLER;
+    THRILLER;
 
 
 }
