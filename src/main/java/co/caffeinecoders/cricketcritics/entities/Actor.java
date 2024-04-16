@@ -2,11 +2,9 @@ package co.caffeinecoders.cricketcritics.entities;
 
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
@@ -21,7 +19,7 @@ public class Actor {
     @Column(nullable = false)
     private String lastName;
     @Column
-    private Date dataOfBirth;
+    private OffsetDateTime dateOfBirth;
     @Column
     private String nationality;
     @Column(nullable = false)
@@ -41,11 +39,11 @@ public class Actor {
     public Actor() {
     }
 
-    public Actor(Long id, String name, String lastName, Date dataOfBirth, String nationality, Integer age, String placeOFBirth, RecordStatusEnum recordStatusEnum, List<Movie> movies) {
+    public Actor(Long id, String name, String lastName, OffsetDateTime dateOfBirth, String nationality, Integer age, String placeOFBirth, RecordStatusEnum recordStatusEnum, List<Movie> movies) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.dataOfBirth = dataOfBirth;
+        this.dateOfBirth = dateOfBirth;
         this.nationality = nationality;
         this.age = age;
         this.placeOFBirth = placeOFBirth;
@@ -77,12 +75,12 @@ public class Actor {
         this.lastName = lastName;
     }
 
-    public Date getDataOfBirth() {
-        return dataOfBirth;
+    public OffsetDateTime getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDataOfBirth(Date dataOfBirth) {
-        this.dataOfBirth = dataOfBirth;
+    public void setDateOfBirth(OffsetDateTime dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getNationality() {

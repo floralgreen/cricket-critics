@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +43,7 @@ public class ActorService {
             actorOptional.get().setAge(actor.getAge());
             actorOptional.get().setMovies(actor.getMovies());
             actorOptional.get().setNationality(actor.getNationality());
-            actorOptional.get().setDataOfBirth(actor.getDataOfBirth());
+            actorOptional.get().setDateOfBirth(actor.getDateOfBirth());
             actorOptional.get().setPlaceOFBirth(actor.getPlaceOFBirth());
             Actor actorUpdated = actorRepository.save(actorOptional.get());
             return Optional.of(actorUpdated);
