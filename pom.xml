@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>co.caffeine-coders</groupId>
 	<artifactId>cricket-critics</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>cricket-critics</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
