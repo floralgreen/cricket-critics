@@ -1,5 +1,7 @@
 package co.caffeinecoders.cricketcritics.entities;
 
+import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
@@ -25,15 +27,21 @@ public class Post {
     @Column(nullable = false)
     private OffsetDateTime sentDate;
 
+    @Enumerated(EnumType.STRING)
+    @JsonIgnore
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
+
     public Post() {
     }
 
-    public Post(Long id, String text, Community community, User user, OffsetDateTime sentDate) {
+    public Post(Long id, String text, Community community, User user, OffsetDateTime sentDate, RecordStatusEnum recordStatusEnum) {
         this.id = id;
         this.text = text;
         this.community = community;
         this.user = user;
         this.sentDate = sentDate;
+        this.recordStatusEnum = recordStatusEnum;
     }
 
     public Long getId() {
@@ -74,5 +82,13 @@ public class Post {
 
     public void setSentDate(OffsetDateTime sentDate) {
         this.sentDate = sentDate;
+    }
+
+    public RecordStatusEnum getRecordStatusEnum() {
+        return recordStatusEnum;
+    }
+
+    public void setRecordStatusEnum(RecordStatusEnum recordStatusEnum) {
+        this.recordStatusEnum = recordStatusEnum;
     }
 }

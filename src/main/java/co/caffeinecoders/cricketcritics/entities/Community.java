@@ -28,7 +28,7 @@ public class Community {
     public Community() {
     }
 
-    public Community(Long id, String name, Long forumId, RecordStatusEnum recordStatusEnum, List<Post> posts) {
+    public Community(Long id, String name,RecordStatusEnum recordStatusEnum, List<Post> posts) {
         this.id = id;
         this.name = name;
         this.recordStatusEnum = recordStatusEnum;
