@@ -44,7 +44,8 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     @JsonIgnore
     private List<Review> reviews;
-
+    @OneToMany(mappedBy = "movie")
+    private List<Community> communities;
     @Enumerated(EnumType.STRING)
     @JsonIgnore
     @Column(name = "record_status", nullable = false, length = 1)
@@ -72,7 +73,8 @@ public class Movie {
     }
 
     public Movie(Long id, String title, String plot, Integer duration, Integer usersScore, Integer reviewersScore, OffsetDateTime releaseDate,
-                 String movieWebSite, List<Review> reviews, RecordStatusEnum recordStatusEnum, CategoryEnum categoryEnum, List<Actor> actors, List<Director> directors) {
+                 String movieWebSite, List<Review> reviews, RecordStatusEnum recordStatusEnum, CategoryEnum categoryEnum, List<Actor> actors, List<Director> directors,
+                 List<Community> communities) {
         this.id = id;
         this.title = title;
         this.plot = plot;
@@ -86,6 +88,7 @@ public class Movie {
         this.categoryEnum = categoryEnum;
         this.actors = actors;
         this.directors = directors;
+        this.communities = communities;
     }
 
     public Long getId() {
@@ -190,5 +193,13 @@ public class Movie {
 
     public void setDirectors(List<Director> directors) {
         this.directors = directors;
+    }
+
+    public List<Community> getCommunities() {
+        return communities;
+    }
+
+    public void setCommunities(List<Community> communities) {
+        this.communities = communities;
     }
 }
