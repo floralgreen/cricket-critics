@@ -45,6 +45,7 @@ public class Movie {
     @JsonIgnore
     private List<Review> reviews;
     @OneToMany(mappedBy = "movie")
+    @JsonIgnore
     private List<Community> communities;
     @Enumerated(EnumType.STRING)
     @JsonIgnore

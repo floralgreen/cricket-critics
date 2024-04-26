@@ -19,7 +19,8 @@ public class CommunityController {
 
     @PostMapping("/create")
     public ResponseEntity<Community> createCommunity(@RequestBody Community community){
-        return ResponseEntity.ok().body(community);
+         Community community1 = communityService.createCommunity(community);
+        return ResponseEntity.ok().body(community1);
     }
     @GetMapping("/findAll")
     public ResponseEntity<List<Community>> findAll(){

@@ -20,6 +20,7 @@ public class Community {
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
     @OneToMany(mappedBy = "community")
+    @JsonIgnore
     private List<Post> posts;
     @ManyToOne
     @JoinColumn(name = "movie_id")
@@ -28,11 +29,12 @@ public class Community {
     public Community() {
     }
 
-    public Community(Long id, String name,RecordStatusEnum recordStatusEnum, List<Post> posts) {
+    public Community(Long id, String name, RecordStatusEnum recordStatusEnum, List<Post> posts, Movie movie) {
         this.id = id;
         this.name = name;
         this.recordStatusEnum = recordStatusEnum;
         this.posts = posts;
+        this.movie = movie;
     }
 
     public Long getId() {
@@ -51,7 +53,6 @@ public class Community {
         this.name = name;
     }
 
-
     public RecordStatusEnum getRecordStatusEnum() {
         return recordStatusEnum;
     }
@@ -66,5 +67,13 @@ public class Community {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }
