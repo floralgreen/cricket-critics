@@ -44,6 +44,15 @@ public class PostController {
         return ResponseEntity.ok(postList);
     }
 
+
+    @GetMapping("/communityPosts/{communityId}")
+    @Operation(summary = "This API retrieves all the posts written in a Community by giving the Community ID")
+    public ResponseEntity<List<Post>> findAllPostsByCommunityId(@PathVariable Long communityId){
+        List<Post> postList = postService.findAllPostsByCommunityId(communityId);
+        return ResponseEntity.ok(postList);
+    }
+
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post post){
         Optional<Post> updatedPost = postService.updatePost(post,id);

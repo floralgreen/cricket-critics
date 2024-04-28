@@ -51,5 +51,15 @@ public class PostService {
         return postList;
     }
 
+    /**
+     *
+     * @param communityId given a community Id
+     * @return a list with all the posts of a specific community
+     */
+    public List<Post> findAllPostsByCommunityId(Long communityId) {
+        List<Post> postsList = postRepository.findAllPostsByCommunityId(communityId);
+        return postsList;
+    }
+
 
 }
