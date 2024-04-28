@@ -20,6 +20,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query(value = "SELECT r.id, r.description, r.score, r.likes_counter, r.review_date, r.record_status, r.user_id, r.movie_id FROM reviews as r JOIN users as u on r.user_id = u.id WHERE r.user_id = :id_param AND r.record_status = 'A'", nativeQuery = true)
     List<Review> findAllReviewsByUserId(@Param("id_param") Long idParam);
+
     @Query(value = "SELECT r.id, r.description, r.score, r.likes_counter, r.review_date, r.record_status, r.user_id, r.movie_id FROM reviews as r JOIN movies as m on r.movie_id = m.id WHERE r.movie_id = :id_param AND r.record_status = 'A'", nativeQuery = true)
     List<Review> findAllReviewsByMovieId(@Param("id_param") Long idParam);
 
