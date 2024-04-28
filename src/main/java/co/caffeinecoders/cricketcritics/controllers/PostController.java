@@ -2,7 +2,9 @@ package co.caffeinecoders.cricketcritics.controllers;
 
 import co.caffeinecoders.cricketcritics.entities.Community;
 import co.caffeinecoders.cricketcritics.entities.Post;
+import co.caffeinecoders.cricketcritics.entities.Review;
 import co.caffeinecoders.cricketcritics.services.PostService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,14 @@ public class PostController {
        }
        return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/userPosts/{userId}")
+    @Operation(summary = "This API retrieves all the posts written by a User by giving the User ID")
+    public ResponseEntity<List<Post>> findAllPostsByUserId(@PathVariable Long userId){
+        List<Post> postList = postService.findAllPostsByUserId(userId);
+        return ResponseEntity.ok(postList);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post post){
         Optional<Post> updatedPost = postService.updatePost(post,id);
@@ -50,4 +60,6 @@ public class PostController {
         }
         return ResponseEntity.ok(deactivateByPost.get());
     }
+
+
 }

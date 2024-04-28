@@ -2,6 +2,7 @@ package co.caffeinecoders.cricketcritics.services;
 
 import co.caffeinecoders.cricketcritics.entities.Director;
 import co.caffeinecoders.cricketcritics.entities.Post;
+import co.caffeinecoders.cricketcritics.entities.Review;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,4 +45,11 @@ public class PostService {
         }
         return postOptional;
     }
+
+    public List<Post> findAllPostsByUserId(Long userId) {
+        List<Post> postList = postRepository.findAllPostsByUserId(userId);
+        return postList;
+    }
+
+
 }
