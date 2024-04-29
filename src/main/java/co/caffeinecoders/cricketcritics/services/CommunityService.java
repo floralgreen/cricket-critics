@@ -27,6 +27,13 @@ public class CommunityService {
         }
         return Optional.empty();
     }
+    public Optional<Community> findByName(String name){
+        Optional<Community> community = communityRepository.findActiveCommunityByName(name);
+        if (community.isPresent()) {
+            return community;
+        }
+        return Optional.empty();
+    }
     public Optional<Community> updateCommunity(Long id,Community community){
         Optional<Community> communityOptional = communityRepository.findActiveCommunityById(id);
     if (communityOptional.isPresent()){

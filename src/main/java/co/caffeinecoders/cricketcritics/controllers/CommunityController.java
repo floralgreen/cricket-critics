@@ -35,6 +35,14 @@ public class CommunityController {
         }
         return ResponseEntity.notFound().build();
     }
+    @GetMapping("/find/{name}")
+    public ResponseEntity<Community> findCommunity(@PathVariable String name){
+        Optional<Community> community = communityService.findByName(name);
+        if(community.isPresent()){
+            return ResponseEntity.ok().body(community.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
     @PutMapping("/update/{id}")
     public ResponseEntity<Community> updateCommunity(@PathVariable Long id, @RequestBody Community community){
         Optional<Community> communityOptional = communityService.updateCommunity(id, community);

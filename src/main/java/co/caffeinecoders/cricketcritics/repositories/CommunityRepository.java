@@ -18,4 +18,7 @@ public interface CommunityRepository extends JpaRepository<Community,Long> {
 
     @Query (value="SELECT * FROM communities as c where c.id = :id and c.record_status = 'A'", nativeQuery = true)
     Optional<Community> findActiveCommunityById(@Param("id") Long id);
+
+    @Query (value="SELECT * FROM communities as c where c.name = :name and c.record_status = 'A'", nativeQuery = true)
+    Optional<Community> findActiveCommunityByName(@Param("name") String name);
 }
