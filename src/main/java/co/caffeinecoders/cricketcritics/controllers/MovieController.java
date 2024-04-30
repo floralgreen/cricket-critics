@@ -38,7 +38,7 @@ public class MovieController {
     }
 
     @GetMapping("/all")
-    @Operation(summary = "This API retrives a List with all the Review objects setted as 'Active' in the DB, it returns an empty List if none of it is Active")
+    @Operation(summary = "This API retrives a List with all the Movie objects setted as 'Active' in the DB, it returns an empty List if none of it is Active")
     public ResponseEntity<List<Movie>> findAllActiveMovies() {
         List<Movie> allActiveMovies = movieService.getAllActiveMovies();
         return ResponseEntity.ok(allActiveMovies);

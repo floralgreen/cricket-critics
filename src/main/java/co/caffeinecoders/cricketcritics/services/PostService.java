@@ -1,5 +1,6 @@
 package co.caffeinecoders.cricketcritics.services;
 
+import co.caffeinecoders.cricketcritics.entities.Community;
 import co.caffeinecoders.cricketcritics.entities.Director;
 import co.caffeinecoders.cricketcritics.entities.Post;
 import co.caffeinecoders.cricketcritics.entities.Review;
@@ -26,6 +27,11 @@ public class PostService {
         Optional<Post> postOptional = postRepository.findActivePostById(id);
         return postOptional;
     }
+    public List<Post> findByKeyWord(String keyWord) {
+        List<Post> postOptional = postRepository.findPostByKeyword(keyWord);
+            return postOptional;
+    }
+
     public Optional<Post> updatePost(Post post,Long id){
         Optional<Post> postOptional = postRepository.findActivePostById(id);
         if(postOptional.isPresent()){
