@@ -32,6 +32,7 @@ public class User {
 
     @Column(nullable = false, name = "user_enum", columnDefinition = "enum('BASICUSER','REVIEWER','ADMIN') ")
     @Enumerated(value = EnumType.STRING)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UserEnum userEnum = UserEnum.BASICUSER;
 
     @JsonIgnore

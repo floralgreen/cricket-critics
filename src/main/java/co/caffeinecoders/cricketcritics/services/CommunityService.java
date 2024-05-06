@@ -7,6 +7,7 @@ import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
 import co.caffeinecoders.cricketcritics.enums.UserEnum;
 import co.caffeinecoders.cricketcritics.repositories.CommunityRepository;
+import co.caffeinecoders.cricketcritics.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +20,32 @@ public class CommunityService {
 
     @Autowired
     private CommunityRepository communityRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+
     public PersonalizedResponse createCommunity(Community community){
-        PersonalizedResponse response = new PersonalizedResponse(HttpServletResponse.SC_FORBIDDEN, "Community NOT created, A BASICUSER can't create a community", Optional.empty());
-        if (checkUserPermissions(community.getUser())){
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setMessage("Community created successfully!");
-            response.setEntity(communityRepository.save(community));
+        PersonalizedResponse response = new PersonalizedResponse(HttpServletResponse.SC_BAD_REQUEST, "Community NOT created, given USER doesn't Exists", Optional.empty());
+
+        //recupero lo user con le sue reali proprietà tramite l'id arrivato dal JSON
+        Optional<User> communityCreator = userRepository.findById(community.getUser().getId());
+
+        if (communityCreator.isPresent()){
+
+            //controllo i permessi sui dati effettivi dello user presente nel db
+            if (checkUserPermissions(communityCreator.get())){
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setMessage("Community created successfully!");
+                response.setEntity(communityRepository.save(community));
+            } else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setMessage("Community NOT created, A BASICUSER can't create a community");
+            }
         }
 
         return response;
     }
+
     public List<Community> findAllCommunity(){
         return communityRepository.findAllActiveCommunity();
     }
