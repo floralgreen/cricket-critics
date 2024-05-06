@@ -1,9 +1,13 @@
 package co.caffeinecoders.cricketcritics.services;
 
 import co.caffeinecoders.cricketcritics.entities.Community;
+import co.caffeinecoders.cricketcritics.entities.DTO.PersonalizedResponse;
 import co.caffeinecoders.cricketcritics.entities.Director;
+import co.caffeinecoders.cricketcritics.entities.User;
 import co.caffeinecoders.cricketcritics.enums.RecordStatusEnum;
+import co.caffeinecoders.cricketcritics.enums.UserEnum;
 import co.caffeinecoders.cricketcritics.repositories.CommunityRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +16,18 @@ import java.util.Optional;
 
 @Service
 public class CommunityService {
+
     @Autowired
     private CommunityRepository communityRepository;
-    public Community createCommunity(Community community){
-        return communityRepository.save(community);
+    public PersonalizedResponse createCommunity(Community community){
+        PersonalizedResponse response = new PersonalizedResponse(HttpServletResponse.SC_FORBIDDEN, "Community NOT created, A BASICUSER can't create a community", Optional.empty());
+        if (checkUserPermissions(community.getUser())){
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setMessage("Community created successfully!");
+            response.setEntity(communityRepository.save(community));
+        }
+
+        return response;
     }
     public List<Community> findAllCommunity(){
         return communityRepository.findAllActiveCommunity();
@@ -27,13 +39,18 @@ public class CommunityService {
         }
         return Optional.empty();
     }
-    public Optional<Community> findByName(String name){
-        Optional<Community> community = communityRepository.findActiveCommunityByName(name);
-        if (community.isPresent()) {
-            return community;
-        }
-        return Optional.empty();
+    public List<Community> findAllByName(String name){
+        return communityRepository.findAllActiveCommunityByName(name);
     }
+
+    public List<Community> findUserCommunities(Long userId){
+        return communityRepository.findCommunitiesByUser(userId);
+    }
+
+    public List<Community> findMovieCommunities(Long movieId){
+        return communityRepository.findCommunitiesByMovie(movieId);
+    }
+
     public Optional<Community> updateCommunity(Long id,Community community){
         Optional<Community> communityOptional = communityRepository.findActiveCommunityById(id);
     if (communityOptional.isPresent()){
@@ -51,6 +68,16 @@ public class CommunityService {
             communityRepository.save(communityOptional.get());
         }
         return communityOptional;
+    }
+
+    /**
+     *
+     *
+     * @param user
+     * @return true if the User is not a basic user
+     */
+    private boolean checkUserPermissions(User user){
+        return !user.getUserEnum().equals(UserEnum.BASICUSER);
     }
 
 }

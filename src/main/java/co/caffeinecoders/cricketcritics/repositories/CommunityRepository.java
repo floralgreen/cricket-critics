@@ -20,5 +20,12 @@ public interface CommunityRepository extends JpaRepository<Community,Long> {
     Optional<Community> findActiveCommunityById(@Param("id") Long id);
 
     @Query (value="SELECT * FROM communities as c where c.name = :name and c.record_status = 'A'", nativeQuery = true)
-    Optional<Community> findActiveCommunityByName(@Param("name") String name);
+    List<Community> findAllActiveCommunityByName(@Param("name") String name);
+
+    @Query (value="SELECT c.id, c.name, c.record_status, c.movie_id, c.user_id FROM communities as c JOIN users as u on u.id = c.user_id where c.user_id = :id_param and c.record_status = 'A'", nativeQuery = true)
+    List<Community> findCommunitiesByUser(@Param("id_param") Long userId);
+
+    @Query (value="SELECT c.id, c.name, c.record_status, c.movie_id, c.user_id FROM communities as c JOIN movies as m on m.id = c.movie_id where c.movie_id = :id_param and c.record_status = 'A'", nativeQuery = true)
+    List<Community> findCommunitiesByMovie(@Param("id_param") Long movieId);
+
 }

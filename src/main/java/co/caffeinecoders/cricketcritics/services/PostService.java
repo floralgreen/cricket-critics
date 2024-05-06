@@ -36,9 +36,6 @@ public class PostService {
         Optional<Post> postOptional = postRepository.findActivePostById(id);
         if(postOptional.isPresent()){
             postOptional.get().setText(post.getText());
-            postOptional.get().setSentDate(post.getSentDate());
-            postOptional.get().setCommunity(post.getCommunity());
-            postOptional.get().setUser(post.getUser());
             postRepository.save(postOptional.get());
         }
         return postOptional;

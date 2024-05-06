@@ -29,9 +29,9 @@ public class User {
     @JsonIgnore
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatusEnum = RecordStatusEnum.A;
+
     @Column(nullable = false, name = "user_enum", columnDefinition = "enum('BASICUSER','REVIEWER','ADMIN') ")
     @Enumerated(value = EnumType.STRING)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UserEnum userEnum = UserEnum.BASICUSER;
 
     @JsonIgnore
@@ -42,12 +42,17 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Community> communitiesCreated;
+
 
     public User() {
     }
 
-    public User(Long id, String userName, String name, String lastName, String email, String password,
-                RecordStatusEnum recordStatusEnum, UserEnum userEnum, List<Review> reviews, List<Post> posts) {
+    public User(Long id, String userName, String name, String lastName,
+                String email, String password, RecordStatusEnum recordStatusEnum,
+                UserEnum userEnum, List<Review> reviews, List<Post> posts, List<Community> communitiesCreated) {
         this.id = id;
         this.userName = userName;
         this.name = name;
@@ -58,6 +63,7 @@ public class User {
         this.userEnum = userEnum;
         this.reviews = reviews;
         this.posts = posts;
+        this.communitiesCreated = communitiesCreated;
     }
 
     public Long getId() {
@@ -138,5 +144,13 @@ public class User {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public List<Community> getCommunitiesCreated() {
+        return communitiesCreated;
+    }
+
+    public void setCommunitiesCreated(List<Community> communitiesCreated) {
+        this.communitiesCreated = communitiesCreated;
     }
 }
