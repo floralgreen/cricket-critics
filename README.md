@@ -14,6 +14,10 @@ Siamo qui per celebrare la magia del cinema e per farlo in modo autentico e senz
 
 Unisciti a noi su Cricket Critics e scopri un luogo dove la tua passione per il cinema può davvero fiorire. Entra nella nostra comunità oggi stesso e preparati a vivere esperienze cinematografiche straordinarie in compagnia di nuovi amici cinefili!
 
+## Prova l'APP
+
+Per eseguire l'applicazione, clona il repository e aggiorna il file yml con il tuo database locale, poi utilizza Swagger per controllare tutti i endpoints.
+
 <br>
 
 ***ENG***
@@ -28,3 +32,7 @@ At Cricket Critics, we highlight your voice by giving you the opportunity to pro
 We are here to celebrate the magic of cinema in an authentic and unpretentious way. There are no purchases or virtual currencies—just a shared passion for films and the joy of sharing this passion with like-minded individuals.
 
 Join us on Cricket Critics and discover a place where your passion for cinema can truly flourish. Join our community today and get ready to experience extraordinary cinematic adventures with new cinephile friends!
+
+## Run the APP
+
+To run the application, clone the repository and update the file yml to your local DB, use Swagger to check all the endpoints
