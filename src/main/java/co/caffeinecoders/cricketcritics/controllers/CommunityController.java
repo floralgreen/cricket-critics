@@ -52,12 +52,14 @@ public class CommunityController {
     }
 
     @GetMapping("/findUserCommunities/{userId}")
+    @Operation(summary = "This API retrieves a List with all the community by a specific user given his ID")
     public ResponseEntity<List<Community>> findUserCommunities(@PathVariable Long userId) {
         List<Community> communities = communityService.findUserCommunities(userId);
         return ResponseEntity.ok().body(communities);
     }
 
     @GetMapping("/findMovieCommunities/{movieId}")
+    @Operation(summary = "This API retrieves a List with all the community of a specific movie given his ID")
     public ResponseEntity<List<Community>> findMovieCommunities(@PathVariable Long movieId) {
         List<Community> communities = communityService.findMovieCommunities(movieId);
         return ResponseEntity.ok().body(communities);
