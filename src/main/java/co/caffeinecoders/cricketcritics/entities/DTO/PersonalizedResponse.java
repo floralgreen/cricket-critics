@@ -1,14 +1,14 @@
 package co.caffeinecoders.cricketcritics.entities.DTO;
 
-public class PersonalizedResponse {
+public class PersonalizedResponse <T> {
 
     //TODO PENSARE A COME GENERALIZZARLA E DOVE UTILIZZARLA SE NEL SERVICE O NEL CONTROLLER
     private int status;
     private String message;
-    private Object entity;
+    private T entity;
 
 
-    public PersonalizedResponse(int status, String message, Object entity) {
+    public PersonalizedResponse(int status, String message, T entity) {
         this.status = status;
         this.message = message;
         this.entity = entity;
@@ -34,7 +34,7 @@ public class PersonalizedResponse {
         return entity;
     }
 
-    public void setEntity(Object entity) {
+    public void setEntity(T entity) {
         this.entity = entity;
     }
 }
