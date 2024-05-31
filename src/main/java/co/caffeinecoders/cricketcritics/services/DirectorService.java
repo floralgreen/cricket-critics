@@ -14,16 +14,42 @@ public class DirectorService {
     @Autowired
     private DirectorRepository repository;
 
+    /**
+     *
+     * @param director given a Director Object
+     * @return the saved Object in the DB
+     */
     public Director addDirector(Director director){
         return repository.save(director);
     }
+
+    /**
+     *
+     * @param id given a directorId
+     * @return Optional with the Director Object found
+     * or an empty Optional if the Director is not found or not active
+     */
     public Optional<Director> getActiveDirector(Long id){
         Optional<Director> directorOptional = repository.findActiveDirectorById(id);
         return directorOptional;
     }
+
+    /**
+     *
+     * @return the full list of active Director in the Db
+     * or an empty list if none is active
+     */
     public List<Director> getAllActiveDirector(){
         return repository.findAllActiveDirector();
     }
+
+    /**
+     *
+     * @param director the updated Director Object
+     * @param id given the directorId that has to be updated
+     * @return the updated Director saved on the DB
+     * or empty Optional if the Id is not found
+     */
     public Optional<Director> updateDirector(Director director, Long id){
         Optional<Director> directorOptional = repository.findById(id);
         if (directorOptional.isPresent()){
@@ -40,6 +66,13 @@ public class DirectorService {
         }
         return directorOptional;
     }
+
+    /**
+     *
+     * @param id given an directorId to deactivate
+     * @return the deactivated director or
+     * empty Optional if the Id is not found
+     */
     public Optional<Director> deactivateDirector(Long id){
         Optional<Director> directorOptional = repository.findById(id);
         if (directorOptional.isPresent()){
