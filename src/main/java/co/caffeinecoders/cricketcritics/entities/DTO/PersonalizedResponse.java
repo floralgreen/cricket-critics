@@ -1,13 +1,13 @@
 package co.caffeinecoders.cricketcritics.entities.DTO;
 
-public class PersonalizedResponse <T> {
+public class PersonalizedResponse  {
 
     private int status;
     private String message;
-    private T entity;
+    private Object entity;
 
 
-    public PersonalizedResponse(int status, String message, T entity) {
+    public PersonalizedResponse(int status, String message, Object entity) {
         this.status = status;
         this.message = message;
         this.entity = entity;
@@ -33,7 +33,7 @@ public class PersonalizedResponse <T> {
         return entity;
     }
 
-    public void setEntity(T entity) {
+    public void setEntity(Object entity) {
         this.entity = entity;
     }
 }
