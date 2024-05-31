@@ -124,6 +124,12 @@ public class ReviewService {
         return reviewToDeactivate;
     }
 
+    /**
+     *
+     * @param scoreToCheck given an integer as input
+     * @return true if the Integer is within the bounds ( > 0 and <= 100)
+     * false in the other case
+     */
     private boolean checkValidScore(Integer scoreToCheck) {
         boolean isValid = false;
         if (scoreToCheck >= MINIMUM_SCORE && scoreToCheck <= MAX_SCORE) {
