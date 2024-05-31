@@ -52,7 +52,7 @@ public class ActorController {
     @PutMapping("/delete/{id}")
     @Operation(summary = "This API deactivates the Actor by the given ID, and set the status as ìDeactivated', it returns the deactivated object or notFound if the resource is Absent or already deactivated")
     public ResponseEntity<Actor> deactivateReviewById(@PathVariable Long id){
-        Optional<Actor> deactivatedActor = actorService.deactivateAcotrById(id);
+        Optional<Actor> deactivatedActor = actorService.deactivateActorById(id);
         if (deactivatedActor.isEmpty()){
             return ResponseEntity.notFound().build();
         }

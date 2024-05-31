@@ -2,7 +2,6 @@ package co.caffeinecoders.cricketcritics.entities.DTO;
 
 public class PersonalizedResponse <T> {
 
-    //TODO PENSARE A COME GENERALIZZARLA E DOVE UTILIZZARLA SE NEL SERVICE O NEL CONTROLLER
     private int status;
     private String message;
     private T entity;
